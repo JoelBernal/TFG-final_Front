@@ -1,9 +1,11 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Notifications from 'vue-notification';
 
 
 
 Vue.use(Vuex);
+Vue.use(Notifications);
 
 export default new Vuex.Store({
   state: {
@@ -30,7 +32,7 @@ export default new Vuex.Store({
   actions: {
     fetchLibros({ commit }) {
 
-      fetch('https://pruebaapi1.azurewebsites.net/Libros')
+      fetch('https://apitfgfinal2023.azurewebsites.net/Libros')
 
         .then(response => { return response.json() })
 
@@ -44,7 +46,7 @@ export default new Vuex.Store({
 
     fetchUsuarios({ commit }) {
 
-      fetch('https://pruebaapi1.azurewebsites.net/Clientes')
+      fetch('https://apitfgfinal2023.azurewebsites.net/Clientes')
 
         .then(response => { return response.json() })
 
@@ -59,7 +61,7 @@ export default new Vuex.Store({
     //Ordenar precio de mayor a menor
     OrdenarPrecioMayorMenor({ commit }) {
       console.log("Se editan los datos")
-      fetch('https://pruebaapi1.azurewebsites.net/Libros?orderBy=PrecioAscendente')
+      fetch('https://apitfgfinal2023.azurewebsites.net/Libros?orderBy=PrecioAscendente')
 
         .then(response => { return response.json() })
 
@@ -77,7 +79,7 @@ export default new Vuex.Store({
     //Ordenar precio de mayor a menor
     OrdenarPrecioMenorMayor({ commit }) {
       console.log("Se editan los datos")
-      fetch('https://pruebaapi1.azurewebsites.net/Libros?orderBy=PrecioDescendente')
+      fetch('https://apitfgfinal2023.azurewebsites.net/Libros?orderBy=PrecioDescendente')
 
         .then(response => { return response.json() })
 
@@ -95,7 +97,7 @@ export default new Vuex.Store({
     //Ordenar precio por defecto
     OrdenarPrecioPorDefecto({ commit }) {
       console.log("Se editan los datos")
-      fetch('https://pruebaapi1.azurewebsites.net/Libros')
+      fetch('https://apitfgfinal2023.azurewebsites.net/Libros')
 
         .then(response => { return response.json() })
 
@@ -115,7 +117,7 @@ export default new Vuex.Store({
     eliminarLibro({ commit }, id) {
 
       console.log("Este est mi id a eliminar" + id)
-      return fetch(`https://pruebaapi1.azurewebsites.net/Libros/${id}`, {
+      return fetch(`https://apitfgfinal2023.azurewebsites.net/Libros/${id}`, {
         method: 'DELETE'
       })
 
@@ -127,6 +129,36 @@ export default new Vuex.Store({
         })
 
     },
+
+    addToCarrito({ commit, state }, producto) {
+      // Verificar si el libro ya está en el carrito
+      const libroExistente = state.carrito.find((item) => item.id === producto.id);
+    
+      if (libroExistente) {
+        // Si el libro ya está en el carrito, aumentar la cantidad en 1
+        const nuevoCarrito = state.carrito.map((item) => {
+          if (item.id === producto.id) {
+            return {
+              ...item,
+              cantidad: item.cantidad + 1,
+            };
+          }
+          return item;
+        });
+    
+        commit('setCarrito', nuevoCarrito);
+      } else {
+        // Si el libro no está en el carrito, añadirlo con cantidad 1
+        const nuevoProducto = {
+          ...producto,
+          cantidad: 1,
+        };
+    
+        const nuevoCarrito = [...state.carrito, nuevoProducto];
+        commit('setCarrito', nuevoCarrito);
+      }
+    },
+    
 
   }, modules: {}
 });

@@ -5,23 +5,25 @@
     </div>
 
     <div>
-      <Login></Login>
+      <Register></Register>
     </div>
   </div>
 </template>
 
 <script>
-import Login from "../components/Login.vue";
+import Register from "../components/Register.vue";
 import Navbar from "../components/Navbar.vue";
+
 
 export default {
   name: "Home",
   components: {
-    Login,
-    Navbar,
+      Register,
+      Navbar
   },
 };
 </script>
+
 
 <style>
   .divNavbar{

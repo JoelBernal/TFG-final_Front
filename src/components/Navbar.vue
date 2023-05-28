@@ -24,10 +24,12 @@ export default {
         { title: "Home", path: "/home", icon: "home" },
         { title: "Products", path: "/products", icon: "products" },
         { title: "Usuarios", path: "/usuarios", icon: "usuarios" },
+        { title: "Carrito", path: "/carrito", icon: "carrito" },
+        { title: "Usuario", path: "/InfoUsuario", icon: "user" },
         // { title: "Abous Us", path: "/Abous Us", icon: "Abous Us" },
         // { title: "Contact Us", path: "/Contact Us", icon: "Contact Us" },
         { title: "Sign In", path: "/login", icon: "face" },
-        { title: "Sign Up", path: "/signin", icon: "lock_open" },
+        { title: "Sign Up", path: "/register", icon: "register" },
       ],
     };
   },

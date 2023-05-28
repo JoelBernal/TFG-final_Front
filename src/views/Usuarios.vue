@@ -19,7 +19,7 @@
   import Cards2 from "../components/Cards2.vue";
   
   export default {
-    name: "Products",
+    name: "Home",
     components: {
       Navbar,
       Cards2,
