@@ -56,6 +56,7 @@
 
             <v-card-text>
               <div>Autor: {{ item.autor }}</div>
+              <div>Categorias: {{ item.categorias }}</div>
               <div>Paginas: {{ item.paginas }}</div>
               <div>Precio: {{ item.precio }}</div>
               <div>Id: {{ item.id }}</div>

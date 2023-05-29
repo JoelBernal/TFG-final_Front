@@ -7,7 +7,7 @@
             <h2>Iniciar Sesión</h2>
           </v-card-title>
           <v-card-text>
-            <v-form @submit.prevent="login">
+            <v-form @submit.prevent="loginFunction">
               <v-text-field v-model="email" label="Correo electrónico" outlined></v-text-field>
               <v-text-field v-model="password" label="Contraseña" outlined type="password"></v-text-field>
               <v-btn color="primary" block type="submit">Iniciar Sesión</v-btn>
@@ -20,6 +20,9 @@
 </template>
 
 <script>
+
+import {mapState, mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -28,7 +31,10 @@ export default {
     };
   },
   methods: {
-    login() {
+    ...mapActions(["fetchLogin"]),
+
+    async loginFunction() {
+      await this.fetchLogin({correo : this.email, contrasenya : this.password})
       // Realiza las acciones necesarias para iniciar sesión
       // Aquí puedes agregar tu lógica para verificar el inicio de sesión
       console.log('Iniciando sesión...');
@@ -38,6 +44,9 @@ export default {
       // Realiza las acciones adicionales necesarias, como enviar los datos al servidor, verificar la autenticidad, etc.
     }
   }
+  ,computed: {
+    ...mapState(["usuario"]),
+  },
 };
 </script>
 
