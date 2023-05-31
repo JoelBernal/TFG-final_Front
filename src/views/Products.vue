@@ -3,14 +3,15 @@
     <div>
       <Navbar />
     </div>
-
     <div style="display: flex;">
       <div class="MenuClass">
         <MenuLateral></MenuLateral>
       </div>
       <div style="display:flex; flex-direction:column; gap: 50px; margin-left: 15%">
-        <div style="display: flex; gap: 30px; margin-top: 35px ">
-          <Cards></Cards>
+        <div style="display: flex; flex-direction: column; gap: 30px; margin-top: 35px ">
+          <div>
+            <Cards></Cards>
+          </div>
         </div>
       </div>
     </div>
@@ -21,6 +22,7 @@
 import Navbar from "../components/Navbar.vue";
 import MenuLateral from "../components/MenuLateral.vue";
 import Cards from "../components/Cards.vue";
+
 
 export default {
   name: "Products",
@@ -35,7 +37,7 @@ export default {
 };
 </script>
  
-<style>
+<style scoped>
 .MenuClass {
   height: auto;
   max-height: 100%;

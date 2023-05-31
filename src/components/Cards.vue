@@ -1,6 +1,7 @@
 <template>
   <v-container fluid>
-    <div class="botonOrden">
+
+    <!-- <div class="botonOrden">
       <v-button
         id="orden"
         @click="
@@ -25,7 +26,44 @@
         "
         >Ordenar por Precio: Menor a mayor</v-button
       >
-    </div>
+    </div> -->
+
+
+    <v-menu offset-y>
+      <template v-slot:activator="{ on }">
+        <v-btn id="orden" v-on="on">Ordenar por precio</v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          @click="
+            OrdenarPrecioPorDefecto();
+            dialog = true;
+          "
+        >
+          <v-list-item-title>Por defecto</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          @click="
+            OrdenarPrecioMenorMayor();
+            dialog = true;
+          "
+        >
+          <v-list-item-title>Mayor a menor</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          @click="
+            OrdenarPrecioMayorMenor();
+            dialog = true;
+          "
+        >
+          <v-list-item-title>Menor a mayor</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
+    <v-btn id="addLibro" @click="agregarLibro()" color="primary" dark
+      >Añadir libro</v-btn
+    >
 
     <div>
       <v-row no-gutters>
@@ -90,18 +128,15 @@
 import store from "@/store/store.js";
 import { mapState, mapActions } from "vuex";
 
-
 export default {
   name: "Cards",
-  components: {
+  components: {},
 
+  data() {
+    return {
+      dialog: false,
+    };
   },
-
-  data () {
-      return {
-        dialog: false,
-      }
-    },
 
   methods: {
     ...mapActions([store.dispatch("fetchLibros")]),
@@ -110,22 +145,25 @@ export default {
     ...mapActions(["OrdenarPrecioMenorMayor"]),
     ...mapActions(["OrdenarPrecioPorDefecto"]),
     ...mapActions(["addToCarrito"]),
+
     comprarLibro(libro) {
       this.addToCarrito(libro);
 
       // Mostrar notificación
       this.$notify({
-      title: '¡Libro añadido al carrito!',
-      text: 'El libro ha sido agregado correctamente al carrito de compras.',
-      type: 'success',
-  });
+        title: "¡Libro añadido al carrito!",
+        text: "El libro ha sido agregado correctamente al carrito de compras.",
+        type: "success",
+      });
     },
     eliminarLibro(id) {
       // Lógica para eliminar un libro
       this.eliminarLibro(id);
     },
-    // Resto de métodos
-
+    agregarLibro() {
+      // Lógica para redirigir a /formLibro
+      this.$router.push("/formLibro");
+    },
   },
   computed: {
     user() {
@@ -136,7 +174,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 @media screen and (max-width: 400px) {
   .v-card__subtitle {
     font-size: 14px;

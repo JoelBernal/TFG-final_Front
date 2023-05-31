@@ -17,17 +17,31 @@
   <script>
   import Navbar from "../components/Navbar.vue";
   import Cards2 from "../components/Cards2.vue";
+  import { mapState } from "vuex";
   
   export default {
     name: "Home",
     components: {
       Navbar,
       Cards2,
-      
     },
     props: {
       source: String,
     },
+    computed : {
+      ...mapState(["usuario"])
+    },
+    mounted(){
+      this.checkAdmin(this.usuario);
+
+    },
+    methods : {
+      checkAdmin(usuario){
+        if (!usuario || usuario.rol !== "admin") {
+          this.$router.replace("/home")
+        }
+      }
+    }
   };
   </script>
    

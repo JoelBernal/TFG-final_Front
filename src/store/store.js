@@ -1,9 +1,11 @@
 import Vue from "vue";
 import Vuex from "vuex";
+
 import Notifications from "vue-notification";
 
 Vue.use(Vuex);
 Vue.use(Notifications);
+
 
 export default new Vuex.Store({
   state: {
@@ -28,6 +30,12 @@ export default new Vuex.Store({
     Login(state, usuario) {
       state.usuario = usuario;
     },
+    agregarLibro(state, libro) {
+      state.libro.push(libro);
+    },
+    RegistrarUser(state,usuarios){
+      state.usuarios.push(usuarios);
+    }
   },
 
   actions: {
@@ -47,6 +55,15 @@ export default new Vuex.Store({
       let a = await fetch("https://localhost:7222/Clientes/" + id);
       return await a.json();
     },
+
+    // async fetchUsuarioActual({ commit, state }, id) {
+    //   if (!state.usuario || state.usuario.id !== id) {
+    //     let res = await fetch(`https://localhost:7222/Clientes/${id}`);
+    //     let data = await res.json();
+    //     commit("Login", data);
+    //   }
+    // }
+    
 
     //Ordenar precio de mayor a menor
     OrdenarPrecioMayorMenor({ commit }) {
@@ -113,6 +130,24 @@ export default new Vuex.Store({
         });
     },
 
+    //Añadir Libro
+    async agregarLibro({ commit }, libro) {
+      return await fetch('https://localhost:7222/Libros', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(libro)
+      })
+        .then(async response => await response.json())
+        .then(data => {
+          commit('agregarLibro', data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+
     addToCarrito({ commit, state }, producto) {
       // Verificar si el libro ya está en el carrito
       const libroExistente = state.carrito.find(
@@ -166,7 +201,64 @@ export default new Vuex.Store({
       commit("Login", user);
       
       Vue.$cookies.set("idUsuario", idUsuario)
-    }
+    },
+
+
+    async registerUser({ commit }, user) {
+      console.log(user)
+      try {
+        const response = await fetch('https://localhost:7222/Clientes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(user),
+        });
+        
+        console.log(response);
+        if (response.ok) {
+          const data = await response.json();
+          commit('ADD_USER', data);
+        } else {
+          // Manejar los errores de respuesta HTTP
+          console.error(`Error HTTP: ${response.status}`);
+        }
+        
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+
+    // async fetchLogin({ commit, dispatch }, usuario) {
+    //   let res = await fetch("https://localhost:7222/Clientes/Login", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       correo: usuario.correo,
+    //       contrasenya: usuario.contrasenya,
+    //     }),
+    //   });
+    
+    //   let data = await res.json();
+    //   await dispatch("login", data);
+    //   await dispatch("fetchUsuarioActual", data);
+    // }
+
+
+    // async login({ commit, dispatch }, idUsuario) {
+    //   commit("Login", idUsuario);
+    //   Vue.$cookies.set("idUsuario", idUsuario);
+    //   await dispatch("fetchUsuarioActual", idUsuario);
+    // }
+    
+    
+
+
+
+
   },
   modules: {},
 });

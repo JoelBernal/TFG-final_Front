@@ -8,26 +8,32 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider></v-divider>
+
       <v-list dense nav>
-        <v-list-item v-for="item in items" :key="item.title" link>
+        <v-list-item v-for="item in items" :key="item.title" :to="item.href" link>
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
             <v-list-item-title class="mandangon">{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item @click="redirectToFormLibro" link>
+          <v-list-item-icon>
+            <v-icon>mdi-plus</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title class="mandangon">Añadir Libro</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
-      <div style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
 
-      <LibrosForm></LibrosForm>
+      <div style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
     </v-navigation-drawer>
   </v-app>
 </template>
 
 <script>
-import LibrosForm from "./librosForm.vue";
 import store from "@/store/store.js";
 import { mapState, mapActions } from "vuex";
 
@@ -35,16 +41,20 @@ export default {
   name: "App",
   data: () => ({
     items: [
-      { title: "Libros", icon: "mdi-book", href: "" },
+      { title: "Libros", icon: "mdi-book", href: "/products" },
       { title: "Librerias", icon: "mdi-view-dashboard", href: "" },
       { title: "Ajustes", icon: "mdi-cog", href: "https://github.com/JoelBernal/ProyectoVueSegundaEval"},
     ],
   }),
-  components: { LibrosForm },
+  components: {},
 
   methods: {
     ...mapActions([store.dispatch("fetchOrdenarLibros")]),
+    redirectToFormLibro() {
+      this.$router.push("/formLibro");
+    },
   },
+
   computed: {
     user() {
       return this.libro;

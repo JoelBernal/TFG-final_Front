@@ -1,19 +1,42 @@
 <template>
   <v-app>
-    <v-app-bar style="display: flex; width: 100%; left:0px; z-index:9999" color="green" class="flex-grow-0" app dark>
-      <img class="logoImgNavBar"
+    <v-app-bar
+      style="display: flex; width: 100%; left: 0px; z-index: 9999"
+      color="green"
+      class="flex-grow-0"
+      app
+      dark
+    >
+      <img
+        class="logoImgNavBar"
         src="https://images.vexels.com/media/users/3/267831/isolated/preview/cd079d709300f6af3cdfa75b83d35db8-icono-de-libros-acogedores-de-invierno.png"
-        alt="">
-      <v-app-bar-title style="width: 100%; font-size: 37px; font-family: serif; margin-left: 10px">LIBRERIAS PACO</v-app-bar-title>
+        alt=""
+      />
+      <v-app-bar-title
+        style="
+          width: 100%;
+          font-size: 37px;
+          font-family: serif;
+          margin-left: 10px;
+        "
+        >LIBRERIAS PACO</v-app-bar-title
+      >
       <v-toolbar-items style="gap: 0px; width: 70%" class="hidden-xs-only">
-        <v-btn style="background-color: #272727;" text v-for="item in menuItems" :key="item.title" :to="item.path">{{ item.title }}</v-btn>
+        <v-btn
+          style="background-color: #272727"
+          text
+          v-for="item in menuItems.filter((a) => a.active)"
+          :key="item.title"
+          :to="item.path"
+          >{{ item.title }}</v-btn
+        >
       </v-toolbar-items>
     </v-app-bar>
-
   </v-app>
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "App",
   data() {
@@ -21,17 +44,69 @@ export default {
       appTitle: "Awesome App",
       sidebar: false,
       menuItems: [
-        { title: "Home", path: "/home", icon: "home" },
-        { title: "Products", path: "/products", icon: "products" },
-        { title: "Usuarios", path: "/usuarios", icon: "usuarios" },
-        { title: "Carrito", path: "/carrito", icon: "carrito" },
-        { title: "Usuario", path: "/InfoUsuario", icon: "user" },
-        // { title: "Abous Us", path: "/Abous Us", icon: "Abous Us" },
-        // { title: "Contact Us", path: "/Contact Us", icon: "Contact Us" },
-        { title: "Sign In", path: "/login", icon: "face" },
-        { title: "Sign Up", path: "/register", icon: "register" },
+        { title: "Home", path: "/home", icon: "home", active: true },
+        {
+          title: "Products",
+          path: "/products",
+          icon: "products",
+          active: true,
+        },
+        {
+          title: "Usuarios",
+          path: "/usuarios",
+          icon: "usuarios",
+          active: false,
+        },
+        { title: "Carrito", path: "/carrito", icon: "carrito", active: true },
+        { title: "Usuario", path: "/InfoUsuario", icon: "user", active: false },
+        { title: "Sign In", path: "/login", icon: "face", active: false },
+        {
+          title: "Sign Up",
+          path: "/register",
+          icon: "register",
+          active: false,
+        },
       ],
     };
+  },
+  computed: {
+    ...mapState(["usuario"]),
+  },
+  watch: {
+    usuario(newUser) {
+      this.chechUser(newUser);
+    },
+  },
+  methods: {
+    chechUser(user) {
+      if (user) {
+        this.menuItems.forEach((i) => {
+          if (i.title == "Sign In" || i.title == "Sign Up") {
+            i.active = false;
+          }
+          if (i.title == "Usuario") {
+            i.active = true;
+          }
+          if (i.title == "Usuarios" && user.rol == "admin") {
+            i.active = true;
+          } else if (i.title == "Usuarios" && user.rol !== "admin") {
+            i.active = false;
+          }
+        });
+      } else {
+        this.menuItems.forEach((i) => {
+          if (i.title == "Sign In" || i.title == "Sign Up") {
+            i.active = true;
+          }
+          if (i.title == "Usuario") {
+            i.active = false;
+          }
+        });
+      }
+    },
+  },
+  mounted() {
+    this.chechUser(this.usuario);
   },
 };
 </script>
@@ -69,6 +144,3 @@ export default {
   margin-left: 10px;
 }
 </style>
-
-
-

@@ -1,131 +1,128 @@
 <template>
-  <v-app>
-    <v-layout>
-      <v-flex xs10 offset-xs1>
-        <v-expansion-panels accordion>
-          <v-expansion-panel>
-            <v-expansion-panel-header class="headline">Añadir Libros</v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-form ref="form" v-model="valid" :lazy-validation="lazy">
-                <v-text-field
-                  v-model="name"
-                  :rules="[tituloRule]"
-                  label="Titulo"
-                  required
-                  class="mt-required"
-                ></v-text-field>
-                <v-text-field v-model="autor" :rules="[autorRule]" label="Autor"></v-text-field>
-                <v-text-field
-                  v-model="fechaPublicacion"
-                  :rules="[fechaRule]"
-                  label="Fecha Publicacion"
-                ></v-text-field>
-                <v-text-field v-model="nPaginas" :rules="[paginasRule]" label="Nº Paginas"></v-text-field>
-                <v-btn
-                  :disabled="customerSubmitted && !valid"
-                  color="success"
-                  class="mr-4"
-                  @click="validate"
-                >Añadir</v-btn>
-              </v-form>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-flex>
-    </v-layout>
-
-    <v-snackbar v-model="snackbar">
-      Form submitted successfully
-      <v-btn color="pink" text @click="snackbar = false">Close</v-btn>
-    </v-snackbar>
-  </v-app>
+  <div class="container">
+    <div class="libros-form">
+      <h2 class="form-title">Añadir Libro</h2>
+      <form @submit.prevent="submitForm">
+        <div class="form-group">
+          <label for="titulo" class="form-label">Título:</label>
+          <input type="text" id="titulo" v-model="titulo" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="titulo" class="form-label">Precio:</label>
+          <input type="text" id="precio" v-model="precio" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="autor" class="form-label">Autor:</label>
+          <input type="text" id="autor" v-model="autor" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="autor" class="form-label">Paginas:</label>
+          <input type="text" id="autor" v-model="paginas" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="genero" class="form-label">CategoríaId:</label>
+          <input type="text" id="categoria" v-model="categoriaId" class="form-input" required>
+        </div>
+        <button type="submit" class="submit-button">Añadir</button>
+      </form>
+    </div>
+  </div>
 </template>
-  
-  <script>
-import { mask } from "vue-the-mask";
 
+<script>
 export default {
-  directives: {
-    mask,
+  data() {
+    return {
+      titulo: '',
+      precio: '',
+      autor: '',
+      paginas: '',
+      categoriaId: ''
+    };
   },
-  data: () => ({
-    mask: "",
-    masked: "",
-    show: false,
-    customerSubmitted: false,
-    valid: true,
-    autor: "",
-    fechaPublicacion: "",
-    nPaginas: "",
-    startDate: null,
-    //   state: null,
-    checkbox: false,
-    lazy: true,
-    snackbar: false,
-  }),
   methods: {
-    tituloRule(v) {
-      if (!this.customerSubmitted) {
-        return true;
-      }
-      if (!v) {
-        return "Titulo es necesario";
-      }
-      return true;
-    },
-    autorRule(v) {
-      if (!this.customerSubmitted) {
-        return true;
-      }
-      if (!v) {
-        return "Por favor, introduce un autor";
-      }
-      return true;
-    },
-
-    fechaRule(v) {
-      if (!this.customerSubmitted) {
-        return true;
-      }
-      if (!v) {
-        return "Introduce una fecha";
-      }
-      return true;
-    },
-
-    paginasRule(v) {
-      if (!this.customerSubmitted) {
-        return true;
-      }
-      if (!v) {
-        return "Introduce un numero de Paginas";
-      }
-      return true;
-    },
-
-    validate() {
-      this.customerSubmitted = true;
-      if (this.$refs.form.validate()) {
-        // got valid form, submit it
-        this.snackbar = true;
-      }
-    },
-  },
-  computed: {
-    customer() {
-      return {
+    submitForm() {
+      // Aquí puedes agregar la lógica para enviar el formulario o realizar otras acciones
+      // Por ejemplo, puedes llamar a una acción de Vuex para agregar el libro al estado global
+      this.$store.dispatch('agregarLibro', {
         titulo: this.titulo,
-        masked: this.masked,
-        email: this.email,
-        startDate: this.startDate,
-        state: this.state,
-        optIn: this.checkbox,
-      };
-    },
-  },
+        precio: this.precio,
+        autor: this.autor,
+        paginas: this.paginas,
+        enVenta: true,
+        categoriaId: this.categoriaId
+      });
+      
+      // Una vez que el libro se ha agregado correctamente, puedes restablecer los campos del formulario
+      this.titulo = '';
+      this.precio = '';
+      this.autor = '';
+      this.paginas = '';
+      this.categoriaId = '';
+      
+      // También puedes ocultar el formulario si deseas
+      this.$emit('cerrar-formulario');
+    }
+  }
 };
 </script>
-  
-  <style>
+
+<style scoped>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ajusta la altura según tus necesidades */
+}
+
+.libros-form {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  width: 300px;
+}
+
+.form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-button {
+  background-color: #80461b;
+  color: #fff;
+  border: none;
+  padding: 15px 40px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  border-radius: 10px;
+}
+
+.submit-button:hover {
+  background-color: #5e3414;
+}
+
+.submit-button:active {
+  transform: scale(0.9);
+}
 </style>
-  

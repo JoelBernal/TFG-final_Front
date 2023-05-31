@@ -8,9 +8,9 @@
           </v-card-title>
           <v-card-text>
             <v-form @submit.prevent="register">
-              <v-text-field v-model="username" label="Nombre de usuario" outlined></v-text-field>
-              <v-text-field v-model="email" label="Correo electrónico" outlined></v-text-field>
-              <v-text-field v-model="password" label="Contraseña" outlined type="password"></v-text-field>
+              <v-text-field v-model="nombreUser" label="Nombre de usuario" outlined></v-text-field>
+              <v-text-field v-model="correo" label="Correo electrónico" outlined></v-text-field>
+              <v-text-field v-model="contrasenya" label="Contraseña" outlined type="password"></v-text-field>
               <v-text-field v-model="confirmPassword" label="Confirmar contraseña" outlined type="password"></v-text-field>
               <v-btn color="primary" block type="submit">Registrarse</v-btn>
             </v-form>
@@ -22,31 +22,41 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   data() {
     return {
-      username: '',
-      email: '',
-      password: '',
+      nombreUser: '',
+      correo: '',
+      contrasenya: '',
       confirmPassword: ''
     };
   },
   methods: {
-    register() {
-      // Realiza las acciones necesarias para registrar al usuario
-      // Aquí puedes agregar tu lógica para verificar y guardar los datos de registro
-      if (this.password !== this.confirmPassword) {
-        // Manejo del caso en que las contraseñas no coincidan
+    ...mapActions(['registerUser']),
+    async register() {
+      if (this.contrasenya !== this.confirmPassword) {
         console.log('Las contraseñas no coinciden');
         return;
       }
 
-      console.log('Registrando usuario...');
-      console.log('Nombre de usuario:', this.username);
-      console.log('Correo electrónico:', this.email);
-      console.log('Contraseña:', this.password);
-
-      // Realiza las acciones adicionales necesarias, como enviar los datos al servidor, almacenarlos en la base de datos, etc.
+      try {
+        const user = {
+          nombreUser: this.nombreUser,
+          correo: this.correo,
+          contrasenya: this.contrasenya,
+          saldo: 0,
+          rol: 'user',
+        };
+        await this.registerUser(user);
+        this.nombreUser = '';
+        this.correo = '';
+        this.contrasenya = '';
+        this.confirmPassword = '';
+      } catch (error) {
+        console.error('Error al registrar al usuario:', error);
+      }
     }
   }
 };

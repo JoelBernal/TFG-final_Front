@@ -7,6 +7,7 @@ import Products from '../views/Products'
 import Usuarios from '../views/Usuarios'
 import InfoUsuario from '../views/InfoUsuario'
 import Carrito from '../views/Carrito'
+import FormLibro from '../views/FormLibro'
 
 Vue.use(VueRouter)
 
@@ -50,6 +51,11 @@ const routes = [
     path: "/carrito",
     name: "Carrito",
     component: Carrito
+  },
+  {
+    path: "/formLibro",
+    name: "FormLibro",
+    component: FormLibro
   },
 ];
 
