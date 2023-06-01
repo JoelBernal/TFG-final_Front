@@ -52,7 +52,7 @@ export default new Vuex.Store({
     },
 
     async fetchUsuario(store, id) {
-      let a = await fetch("https://localhost:7222/Clientes/" + id);
+      let a = await fetch("https://apitfgfinal2023.azurewebsites.net/Clientes" + id);
       return await a.json();
     },
 
@@ -132,7 +132,7 @@ export default new Vuex.Store({
 
     //Añadir Libro
     async agregarLibro({ commit }, libro) {
-      return await fetch('https://localhost:7222/Libros', {
+      return await fetch('https://apitfgfinal2023.azurewebsites.net/Libros', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -181,7 +181,7 @@ export default new Vuex.Store({
 
     //dispatch es para ejecutar una funcion dentro de otra funcion dentro del store
     async fetchLogin({ dispatch }, usuario) {
-      let res = await fetch("https://localhost:7222/Clientes/Login", {
+      let res = await fetch("https://apitfgfinal2023.azurewebsites.net/Clientes/Login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -207,7 +207,7 @@ export default new Vuex.Store({
     async registerUser({ commit }, user) {
       console.log(user)
       try {
-        const response = await fetch('https://localhost:7222/Clientes', {
+        const response = await fetch('https://apitfgfinal2023.azurewebsites.net/Clientes', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
