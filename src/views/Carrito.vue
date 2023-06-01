@@ -13,6 +13,9 @@
         <Carrito></Carrito>
       </div>
     </div>
+    <div>
+      <Footer/>
+    </div>
   </div>
 </template>
 
@@ -20,6 +23,7 @@
 import Navbar from "../components/Navbar.vue";
 import MenuLateral from "../components/MenuLateral.vue";
 import Carrito from "../components/Carrito.vue";
+import Footer from "../components/Footer.vue";
 
 export default {
   name: "Home",
@@ -27,6 +31,7 @@ export default {
     Navbar,
     Carrito,
     MenuLateral,
+    Footer,
   },
   props: {
     source: String,

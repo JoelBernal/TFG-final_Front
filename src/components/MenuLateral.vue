@@ -43,7 +43,7 @@ export default {
     items: [
       { title: "Libros", icon: "mdi-book", href: "/products" },
       { title: "Librerias", icon: "mdi-view-dashboard", href: "" },
-      { title: "Ajustes", icon: "mdi-cog", href: "https://github.com/JoelBernal/ProyectoVueSegundaEval"},
+      { title: "Ajustes", icon: "mdi-cog", href: "/InfoUsuario"},
     ],
   }),
   components: {},

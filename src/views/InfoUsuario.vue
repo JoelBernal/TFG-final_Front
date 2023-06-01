@@ -14,6 +14,9 @@
         </div>
       </div>
     </div>
+    <div>
+      <Footer/>
+    </div>
   </div>
 </template>
 
@@ -21,6 +24,7 @@
 import Navbar from "../components/Navbar.vue";
 import MenuLateral from "../components/MenuLateral.vue";
 import InfoUsuario from "../components/InfoUsuario.vue";
+import Footer from "../components/Footer.vue";
 
 export default {
   name: "Home",
@@ -28,6 +32,7 @@ export default {
     Navbar,
     InfoUsuario,
     MenuLateral,
+    Footer,
   },
   props: {
     source: String,

@@ -79,6 +79,7 @@ export default {
   },
   methods: {
     chechUser(user) {
+      console.log(user);
       if (user) {
         this.menuItems.forEach((i) => {
           if (i.title == "Sign In" || i.title == "Sign Up") {
@@ -120,6 +121,7 @@ export default {
   min-height: 6vh;
   max-width: 100%;
   position: relative;
+  
 }
 
 .v-toolbar__content {

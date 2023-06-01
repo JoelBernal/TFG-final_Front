@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style>
+<style sc>
 
 .v-application--wrap {
     flex: 1 1 auto;

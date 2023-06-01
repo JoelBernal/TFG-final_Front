@@ -10,6 +10,7 @@ Vue.use(Notifications);
 export default new Vuex.Store({
   state: {
     libro: [],
+    establecerfiltrado: [],
     usuarios: [],
     libroOrdenar: [],
     usuario: null,
@@ -33,8 +34,14 @@ export default new Vuex.Store({
     agregarLibro(state, libro) {
       state.libro.push(libro);
     },
+    establecerfiltrado(state, libro) {
+      state.filtrado = libro;
+    },
     RegistrarUser(state,usuarios){
       state.usuarios.push(usuarios);
+    },
+    BuscadorLibro(state, titulo) {
+      state.libro = state.libro.filter((libro) => libro.titulo != titulo);
     }
   },
 
@@ -52,7 +59,8 @@ export default new Vuex.Store({
     },
 
     async fetchUsuario(store, id) {
-      let a = await fetch("https://apitfgfinal2023.azurewebsites.net/Clientes" + id);
+      console.log(id)
+      let a = await fetch("https://apitfgfinal2023.azurewebsites.net/Clientes/" + id);
       return await a.json();
     },
 
@@ -198,6 +206,7 @@ export default new Vuex.Store({
 
     async login ({commit, dispatch}, idUsuario){
       let user = await dispatch("fetchUsuario", idUsuario);
+      console.log(user);
       commit("Login", user);
       
       Vue.$cookies.set("idUsuario", idUsuario)
@@ -230,35 +239,22 @@ export default new Vuex.Store({
     },
 
 
-    // async fetchLogin({ commit, dispatch }, usuario) {
-    //   let res = await fetch("https://localhost:7222/Clientes/Login", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       correo: usuario.correo,
-    //       contrasenya: usuario.contrasenya,
-    //     }),
-    //   });
+    async fetchLibroByName({ commit }, titulo) {
+      try {
+        const response = await fetch(`https://apitfgfinal2023.azurewebsites.net/Libros/titulo/${titulo}`);
+        const libro = await response.json();
+        commit("initLibro", libro);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     
-    //   let data = await res.json();
-    //   await dispatch("login", data);
-    //   await dispatch("fetchUsuarioActual", data);
-    // }
-
-
-    // async login({ commit, dispatch }, idUsuario) {
-    //   commit("Login", idUsuario);
-    //   Vue.$cookies.set("idUsuario", idUsuario);
-    //   await dispatch("fetchUsuarioActual", idUsuario);
-    // }
+    filterLibros(store, titulo) {
+      return this.state.libro.filter(l => l.titulo.toLowerCase().includes(titulo.toLowerCase()));
+    },
     
     
-
-
-
-
+  
   },
   modules: {},
 });

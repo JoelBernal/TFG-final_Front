@@ -1,73 +1,57 @@
 <template>
   <v-container fluid>
+    <div style="display: flex; align-items: center">
+      <v-text-field
+        v-model="searchQuery"
+        label="Buscar libros"
+        filled
+        solo
+        dense
+        append-icon="mdi-magnify"
+        class="search-bar"
+        @keyup.enter="buscarLibro"
+      ></v-text-field>
 
-    <!-- <div class="botonOrden">
-      <v-button
-        id="orden"
-        @click="
-          OrdenarPrecioPorDefecto();
-          dialog = true;
-        "
-        >Ordenar por defecto</v-button
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn id="orden" v-on="on">Ordenar por precio</v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            @click="
+              OrdenarPrecioPorDefecto();
+              dialog = true;
+            "
+          >
+            <v-list-item-title>Por defecto</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            @click="
+              OrdenarPrecioMenorMayor();
+              dialog = true;
+            "
+          >
+            <v-list-item-title>Mayor a menor</v-list-item-title>
+          </v-list-item>
+          <v-list-item
+            @click="
+              OrdenarPrecioMayorMenor();
+              dialog = true;
+            "
+          >
+            <v-list-item-title>Menor a mayor</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+      <v-btn id="addLibro" @click="agregarLibro()" color="primary" dark
+        >Añadir libro</v-btn
       >
-      <v-button
-        id="orden"
-        @click="
-          OrdenarPrecioMenorMayor();
-          dialog = true;
-        "
-        >Ordenar por Precio: Mayor a menor</v-button
-      >
-      <v-button
-        id="orden"
-        @click="
-          OrdenarPrecioMayorMenor();
-          dialog = true;
-        "
-        >Ordenar por Precio: Menor a mayor</v-button
-      >
-    </div> -->
-
-
-    <v-menu offset-y>
-      <template v-slot:activator="{ on }">
-        <v-btn id="orden" v-on="on">Ordenar por precio</v-btn>
-      </template>
-      <v-list>
-        <v-list-item
-          @click="
-            OrdenarPrecioPorDefecto();
-            dialog = true;
-          "
-        >
-          <v-list-item-title>Por defecto</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-          @click="
-            OrdenarPrecioMenorMayor();
-            dialog = true;
-          "
-        >
-          <v-list-item-title>Mayor a menor</v-list-item-title>
-        </v-list-item>
-        <v-list-item
-          @click="
-            OrdenarPrecioMayorMenor();
-            dialog = true;
-          "
-        >
-          <v-list-item-title>Menor a mayor</v-list-item-title>
-        </v-list-item>
-      </v-list>
-    </v-menu>
-
-    <v-btn id="addLibro" @click="agregarLibro()" color="primary" dark
-      >Añadir libro</v-btn
-    >
+    </div>
 
     <div>
       <v-row no-gutters>
-        <v-col v-for="item in libro" :key="item.id" cols="12" sm="4">
+        <v-col v-for="item in librosCards" :key="item.id" cols="12" sm="4">
           <v-card
             id="tarjeta"
             style="margin-bottom: 30px"
@@ -102,7 +86,7 @@
 
             <v-card-actions>
               <v-btn color="orange" @click="comprarLibro(item)">Comprar</v-btn>
-              <v-btn color="red" @click="eliminarLibro(item.id)">Borrar</v-btn>
+              <v-btn color="red" @click="deleteLibro(item.id)">Borrar</v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -134,7 +118,9 @@ export default {
 
   data() {
     return {
+      searchQuery: "",
       dialog: false,
+      librosCards: [],
     };
   },
 
@@ -145,31 +131,44 @@ export default {
     ...mapActions(["OrdenarPrecioMenorMayor"]),
     ...mapActions(["OrdenarPrecioPorDefecto"]),
     ...mapActions(["addToCarrito"]),
+    ...mapActions(["fetchLibroByName"]),
+    ...mapActions(["filterLibros"]),
 
-    comprarLibro(libro) {
-      this.addToCarrito(libro);
+    async buscarLibro() {
+      this.librosCards = await this.filterLibros(this.searchQuery);
+    },
 
-      // Mostrar notificación
-      this.$notify({
-        title: "¡Libro añadido al carrito!",
-        text: "El libro ha sido agregado correctamente al carrito de compras.",
-        type: "success",
-      });
-    },
-    eliminarLibro(id) {
-      // Lógica para eliminar un libro
-      this.eliminarLibro(id);
-    },
-    agregarLibro() {
-      // Lógica para redirigir a /formLibro
-      this.$router.push("/formLibro");
+    //Borrar Libro
+    deleteLibro(id) {
+      this.$store
+        .dispatch("eliminarLibro", id)
+        .then(() => {
+          // Aquí puedes realizar alguna acción adicional después de eliminar el libro, si es necesario
+          console.log("Libro eliminado con éxito");
+        })
+        .catch((error) => {
+          // Manejo de errores en caso de que ocurra algún problema al eliminar el libro
+          console.error("Error al eliminar el libro:", error);
+        });
     },
   },
+
   computed: {
     user() {
       return this.libro;
     },
     ...mapState(["libro"]),
+  },
+  created() {
+    this.dispatch("fetchLibros");
+  },
+  mounted() {
+    this.buscarLibro();
+  },
+  watch: {
+    libro() {
+      this.buscarLibro();
+    },
   },
 };
 </script>
@@ -208,5 +207,25 @@ export default {
 
 .theme--light.v-btn {
   color: white;
+}
+
+.search-bar {
+  width: 300px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.search-bar input {
+  background-color: transparent;
+  border: none;
+  font-size: 14px;
+  padding: 5px;
+}
+
+.search-bar .v-input__icon {
+  color: grey;
 }
 </style>
