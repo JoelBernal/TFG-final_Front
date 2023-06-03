@@ -3,7 +3,7 @@
     <div style="display: flex; align-items: center">
       <v-text-field
         v-model="searchQuery"
-        label="Buscar libros"
+        label="Buscar libros o autor"
         filled
         solo
         dense
@@ -44,20 +44,20 @@
         </v-list>
       </v-menu>
 
-      <v-btn id="addLibro" @click="agregarLibro()" color="primary" dark
-        >Añadir libro</v-btn
-      >
+      <!-- <v-btn id="addLibro" @click="agregarLibro()" color="primary" dark
+        >Añadir libro</v-btn> -->
     </div>
 
     <div>
       <v-row no-gutters>
-        <v-col v-for="item in librosCards" :key="item.id" cols="12" sm="4">
+        <v-col style="padding-left: 20px;"  v-for="item in librosCards" :key="item.id" cols="12" sm="4">
           <v-card
             id="tarjeta"
-            style="margin-bottom: 30px"
+            style="margin-bottom: 30px; border: 2px solid black"
             class="mx-auto"
             max-width="400"
             tile
+            @click="verDetalle(item.id)"
           >
             <v-img
               class="align-end text-white"
@@ -86,7 +86,7 @@
 
             <v-card-actions>
               <v-btn color="orange" @click="comprarLibro(item)">Comprar</v-btn>
-              <v-btn color="red" @click="deleteLibro(item.id)">Borrar</v-btn>
+              <!-- <v-btn color="red" @click="deleteLibro(item.id)">Borrar</v-btn> -->
             </v-card-actions>
           </v-card>
         </v-col>
@@ -126,7 +126,7 @@ export default {
 
   methods: {
     ...mapActions([store.dispatch("fetchLibros")]),
-    ...mapActions(["eliminarLibro"]),
+    // ...mapActions(["eliminarLibro"]),
     ...mapActions(["OrdenarPrecioMayorMenor"]),
     ...mapActions(["OrdenarPrecioMenorMayor"]),
     ...mapActions(["OrdenarPrecioPorDefecto"]),
@@ -134,23 +134,26 @@ export default {
     ...mapActions(["fetchLibroByName"]),
     ...mapActions(["filterLibros"]),
 
+    verDetalle(id) {
+      this.$router.push(`/libro/${id}`);
+    },
     async buscarLibro() {
       this.librosCards = await this.filterLibros(this.searchQuery);
     },
 
-    //Borrar Libro
-    deleteLibro(id) {
-      this.$store
-        .dispatch("eliminarLibro", id)
-        .then(() => {
-          // Aquí puedes realizar alguna acción adicional después de eliminar el libro, si es necesario
-          console.log("Libro eliminado con éxito");
-        })
-        .catch((error) => {
-          // Manejo de errores en caso de que ocurra algún problema al eliminar el libro
-          console.error("Error al eliminar el libro:", error);
-        });
-    },
+    // //Borrar Libro
+    // deleteLibro(id) {
+    //   this.$store
+    //     .dispatch("eliminarLibro", id)
+    //     .then(() => {
+    //       // Aquí puedes realizar alguna acción adicional después de eliminar el libro, si es necesario
+    //       console.log("Libro eliminado con éxito");
+    //     })
+    //     .catch((error) => {
+    //       // Manejo de errores en caso de que ocurra algún problema al eliminar el libro
+    //       console.error("Error al eliminar el libro:", error);
+    //     });
+    // },
   },
 
   computed: {
@@ -190,7 +193,6 @@ export default {
 
 #orden {
   margin: 60px;
-  margin-bottom: 50px;
 }
 
 .botonOrden {
@@ -212,7 +214,7 @@ export default {
 .search-bar {
   width: 300px;
   margin-top: 20px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
   background-color: #f5f5f5;
   border-radius: 5px;
   padding: 5px;

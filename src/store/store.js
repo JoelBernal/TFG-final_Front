@@ -12,6 +12,7 @@ export default new Vuex.Store({
     libro: [],
     establecerfiltrado: [],
     usuarios: [],
+    tienda: [],
     libroOrdenar: [],
     usuario: null,
   },
@@ -19,14 +20,23 @@ export default new Vuex.Store({
     initLibro(state, libro) {
       state.libro = libro;
     },
+    initTiendas(state, tienda) {
+      state.tienda = tienda;
+    },
+    initUsuarios(state, usuarios) {
+      state.usuarios = usuarios;
+    },
     initOrdenarLibro(state, libro) {
       state.libroOrdenar = libro;
     },
     eliminarLibro(state, id) {
       state.libro = state.libro.filter((libro) => libro.id != id);
     },
-    initUsuarios(state, usuarios) {
-      state.usuarios = usuarios;
+    eliminarTienda(state, id) {
+      state.tienda = state.tienda.filter((tienda) => tienda.id != id);
+    },
+    eliminarCliente(state, id) {
+      state.usuarios = state.usuarios.filter((usuarios) => usuarios.id != id);
     },
     Login(state, usuario) {
       state.usuario = usuario;
@@ -42,7 +52,10 @@ export default new Vuex.Store({
     },
     BuscadorLibro(state, titulo) {
       state.libro = state.libro.filter((libro) => libro.titulo != titulo);
-    }
+    },
+    BuscadorTienda(state, comunidad) {
+      state.tienda = state.tienda.filter((tienda) => tienda.comunidad != comunidad);
+    },
   },
 
   actions: {
@@ -50,6 +63,12 @@ export default new Vuex.Store({
       let res = await fetch("https://apitfgfinal2023.azurewebsites.net/Libros")
       let data = await res.json();
       commit("initLibro", data);
+    },
+
+    async fetchTiendas({ commit }) {
+      let res = await fetch("https://apitfgfinal2023.azurewebsites.net/Tiendas")
+      let data = await res.json();
+      commit("initTiendas", data);
     },
 
     async fetchUsuarios({ commit }) {
@@ -64,13 +83,13 @@ export default new Vuex.Store({
       return await a.json();
     },
 
-    // async fetchUsuarioActual({ commit, state }, id) {
-    //   if (!state.usuario || state.usuario.id !== id) {
-    //     let res = await fetch(`https://localhost:7222/Clientes/${id}`);
-    //     let data = await res.json();
-    //     commit("Login", data);
-    //   }
-    // }
+    //Buscar libro por ID
+    async fetchLibro(store, id) {
+      console.log(id)
+      let a = await fetch("https://apitfgfinal2023.azurewebsites.net/Libros/" + id);
+      return await a.json();
+    },
+
     
 
     //Ordenar precio de mayor a menor
@@ -137,6 +156,32 @@ export default new Vuex.Store({
           console.error(error);
         });
     },
+    eliminarTienda({ commit }, id) {
+      console.log("Este est mi id a eliminar" + id);
+      return fetch(`https://apitfgfinal2023.azurewebsites.net/Tiendas/${id}`, {
+        method: "DELETE",
+      })
+        .then(() => {
+          commit(`eliminarTienda`, id);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
+    eliminarCliente({ commit }, id) {
+      console.log("Este est mi id a eliminar" + id);
+      return fetch(`https://apitfgfinal2023.azurewebsites.net/Clientes/${id}`, {
+        method: "DELETE",
+      })
+        .then(() => {
+          commit(`eliminarCliente`, id);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
 
     //Añadir Libro
     async agregarLibro({ commit }, libro) {
@@ -155,6 +200,24 @@ export default new Vuex.Store({
           console.error(error);
         });
     },
+
+        //Añadir Tienda
+        async agregarTienda({ commit }, libro) {
+          return await fetch('https://apitfgfinal2023.azurewebsites.net/Tiendas', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(libro)
+          })
+            .then(async response => await response.json())
+            .then(data => {
+              commit('agregarTienda', data);
+            })
+            .catch(error => {
+              console.error(error);
+            });
+        },
 
     addToCarrito({ commit, state }, producto) {
       // Verificar si el libro ya está en el carrito
@@ -249,12 +312,13 @@ export default new Vuex.Store({
       }
     },
     
-    filterLibros(store, titulo) {
-      return this.state.libro.filter(l => l.titulo.toLowerCase().includes(titulo.toLowerCase()));
+    filterLibros(store, query) {
+      return this.state.libro.filter(l => l.titulo.toLowerCase().includes(query.toLowerCase()) || l.autor.toLowerCase().includes(query.toLowerCase()));
     },
-    
-    
-  
+    filterTiendas(store, comunidad) {
+      return this.state.tienda.filter(l => l.comunidad.toLowerCase().includes(comunidad.toLowerCase()));
+    },
+
   },
   modules: {},
 });

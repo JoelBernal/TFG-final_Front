@@ -18,14 +18,6 @@
             <v-list-item-title class="mandangon">{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item @click="redirectToFormLibro" link>
-          <v-list-item-icon>
-            <v-icon>mdi-plus</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title class="mandangon">Añadir Libro</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
       </v-list>
 
       <div style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
@@ -42,7 +34,7 @@ export default {
   data: () => ({
     items: [
       { title: "Libros", icon: "mdi-book", href: "/products" },
-      { title: "Librerias", icon: "mdi-view-dashboard", href: "" },
+      { title: "Tiendas", icon: "mdi-view-dashboard", href: "/tiendas" },
       { title: "Ajustes", icon: "mdi-cog", href: "/InfoUsuario"},
     ],
   }),
@@ -52,6 +44,9 @@ export default {
     ...mapActions([store.dispatch("fetchOrdenarLibros")]),
     redirectToFormLibro() {
       this.$router.push("/formLibro");
+    },
+    redirectToFormTienda() {
+      this.$router.push("/formTienda");
     },
   },
 

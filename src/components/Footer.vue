@@ -9,7 +9,7 @@
             <v-icon>{{ icon }}</v-icon>
           </v-btn>
         </v-col>
-        <img class="logoImgFooter" src="https://images.vexels.com/media/users/3/267831/isolated/preview/cd079d709300f6af3cdfa75b83d35db8-icono-de-libros-acogedores-de-invierno.png" alt="">
+       
         <!-- <v-icon>mdi-vuetify</v-icon> -->
       </v-row>
     </v-footer>

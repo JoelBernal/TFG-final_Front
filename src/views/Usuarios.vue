@@ -7,7 +7,7 @@
  
         <div style="display:flex; flex-direction:column; gap: 50px; margin-left: 15%">
           <div style="display: flex; gap: 30px; margin-top: 35px ">
-            <Cards2></Cards2>
+            <Clientes/>
           </div>
         </div>
       </div>
@@ -16,14 +16,15 @@
   
   <script>
   import Navbar from "../components/Navbar.vue";
-  import Cards2 from "../components/Cards2.vue";
+  import Clientes from "../components/Clientes.vue";
   import { mapState } from "vuex";
   
   export default {
     name: "Home",
     components: {
       Navbar,
-      Cards2,
+      Clientes,
+
     },
     props: {
       source: String,

@@ -46,10 +46,16 @@ export default {
       menuItems: [
         { title: "Home", path: "/home", icon: "home", active: true },
         {
-          title: "Products",
+          title: "Productos",
           path: "/products",
           icon: "products",
           active: true,
+        },
+        {
+          title: "ProductosAdmin",
+          path: "/productosAdmin",
+          icon: "productosAdmin",
+          active: false,
         },
         {
           title: "Usuarios",
@@ -58,10 +64,13 @@ export default {
           active: false,
         },
         { title: "Carrito", path: "/carrito", icon: "carrito", active: true },
+        { title: "Tiendas", path: "/tiendas", icon: "Tiendas", active: true },
+        { title: "Sobre Nosotros", path: "/aboutus", icon: "aboutUs", active: true },
+        { title: "TiendasAdmin", path: "/tiendasAdmin", icon: "TiendasAdmin", active: false },
         { title: "Usuario", path: "/InfoUsuario", icon: "user", active: false },
-        { title: "Sign In", path: "/login", icon: "face", active: false },
+        { title: "Iniciar Sesion", path: "/login", icon: "face", active: false },
         {
-          title: "Sign Up",
+          title: "Registrarse",
           path: "/register",
           icon: "register",
           active: false,
@@ -82,7 +91,7 @@ export default {
       console.log(user);
       if (user) {
         this.menuItems.forEach((i) => {
-          if (i.title == "Sign In" || i.title == "Sign Up") {
+          if (i.title == "Iniciar Sesion" || i.title == "Registrarse") {
             i.active = false;
           }
           if (i.title == "Usuario") {
@@ -93,10 +102,40 @@ export default {
           } else if (i.title == "Usuarios" && user.rol !== "admin") {
             i.active = false;
           }
+          if (i.title == "ProductosAdmin" && user.rol == "admin") {
+            i.active = true;
+          } else if (i.title == "ProductosAdmin" && user.rol !== "admin") {
+            i.active = false;
+          }
+          
+          //Productos
+          if (i.title == "ProductosAdmin" && user.rol == "admin") {
+            i.active = true;
+          } else if (i.title == "ProductosAdmin" && user.rol !== "admin") {
+            i.active = false;
+          }
+          if (i.title == "Productos" && user.rol == "admin") {
+            i.active = false;
+          } else if (i.title == "Productos" && user.rol !== "admin") {
+            i.active = true;
+          }
+
+          //Tiendas
+          if (i.title == "TiendasAdmin" && user.rol == "admin") {
+            i.active = true;
+          } else if (i.title == "TiendasAdmin" && user.rol !== "admin") {
+            i.active = false;
+          }
+          if (i.title == "Tiendas" && user.rol == "admin") {
+            i.active = false;
+          } else if (i.title == "Tiendas" && user.rol !== "admin") {
+            i.active = true;
+          }
+
         });
       } else {
         this.menuItems.forEach((i) => {
-          if (i.title == "Sign In" || i.title == "Sign Up") {
+          if (i.title == "Iniciar Sesion" || i.title == "Registrarse") {
             i.active = true;
           }
           if (i.title == "Usuario") {

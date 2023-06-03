@@ -10,7 +10,7 @@
       <div style="display:flex; flex-direction:column; gap: 50px; margin-left: 15%">
         <div style="display: flex; flex-direction: column; gap: 30px; margin-top: 35px ">
           <div>
-            <Cards></Cards>
+            <Productos/>
           </div>
         </div>
       </div>
@@ -24,7 +24,7 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import MenuLateral from "../components/MenuLateral.vue";
-import Cards from "../components/Cards.vue";
+import Productos from "../components/Productos.vue";
 import Footer from "../components/Footer.vue";
 
 
@@ -32,7 +32,7 @@ export default {
   name: "Products",
   components: {
     Navbar,
-    Cards,
+    Productos,
     MenuLateral,
     Footer,
   },

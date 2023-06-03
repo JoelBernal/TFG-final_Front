@@ -7,7 +7,7 @@
       ></v-carousel-item>
 
       <v-carousel-item
-        src="https://www.yaconic.com/wp-content/uploads/2018/02/feria-internacional-del-libro-del-palacio-de-mineria-2018.jpg"
+        src="https://theobjective.com/wp-content/uploads/2020/11/un-aplauso-para-las-librerias.jpg"
         cover
       ></v-carousel-item>
 
