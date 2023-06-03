@@ -58,12 +58,6 @@
             </v-card-text>
 
             <v-card-actions>
-              <!-- <v-btn color="orange" @click="verTienda(tienda)"
-                  >Ver detalles</v-btn
-                > -->
-              <!-- <v-btn color="red" @click="eliminarTienda(item.id)"
-                  >Borrar</v-btn
-                > -->
               <v-btn color="red" @click="deleteTienda(item.id)">Borrar</v-btn>
             </v-card-actions>
           </v-card>
@@ -102,7 +96,6 @@ export default {
     // Borrar Tienda
     deleteTienda(id) {
       this.eliminarTienda(id);
-      // this.tienda = this.tienda.filter( t => t.id != id);
     },
   },
 

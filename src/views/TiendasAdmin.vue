@@ -10,7 +10,7 @@
         <div style="display:flex; flex-direction:column; gap: 50px; margin-left: 15%">
           <div style="display: flex; flex-direction: column; gap: 30px; margin-top: 35px ">
             <div>
-                <Tiendas/>
+                <TiendasAdmin/>
             </div>
           </div>
         </div>
@@ -25,7 +25,7 @@
   import Navbar from "../components/Navbar.vue";
   import MenuLateralAdmin from "../components/MenuLateralAdmin.vue";
   import Footer from "../components/Footer.vue";
-  import Tiendas from "../components/Tiendas.vue";
+  import TiendasAdmin from "../components/TiendasAdmin.vue";
   
   
   export default {
@@ -34,7 +34,7 @@
       Navbar,
       MenuLateralAdmin,
       Footer,
-      Tiendas,
+      TiendasAdmin,
     },
     props: {
       source: String,

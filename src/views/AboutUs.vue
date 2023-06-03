@@ -89,8 +89,8 @@
           <v-col md="4" class="text-center">
             <v-card>
               <v-card-text>
-                "¡Este es el mejor producto que he usado!"
-                <p>- Cliente satisfecho</p>
+                "Esta es la mejor página que he visto en mi vida"
+                <p>- Joaquín Ruiz</p>
               </v-card-text>
             </v-card>
           </v-col>
@@ -98,8 +98,8 @@
           <v-col md="4" class="text-center">
             <v-card>
               <v-card-text>
-                "¡Este es el mejor producto que he usado!"
-                <p>- Cliente satisfecho</p>
+                "¡Que gran catálogo de libros tiene Librerías Paco!"
+                <p>- Oliver Hierro</p>
               </v-card-text>
             </v-card>
           </v-col>
@@ -107,8 +107,8 @@
           <v-col md="4" class="text-center">
             <v-card>
               <v-card-text>
-                "¡Este es el mejor producto que he usado!"
-                <p>- Cliente satisfecho</p>
+                "¡Yo fui quien les dijo que hicieran debug!"
+                <p>- Alejandro Gimenez</p>
               </v-card-text>
             </v-card>
           </v-col>

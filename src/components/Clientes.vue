@@ -32,7 +32,6 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="orange">Ver compras</v-btn>
               <v-btn color="red" @click="deleteCliente(item.id)"
                 >Borrar Perfil</v-btn
               >

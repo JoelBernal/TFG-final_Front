@@ -52,7 +52,7 @@ export default {
           active: true,
         },
         {
-          title: "ProductosAdmin",
+          title: "Productos-Admin",
           path: "/productosAdmin",
           icon: "productosAdmin",
           active: false,
@@ -66,7 +66,7 @@ export default {
         { title: "Carrito", path: "/carrito", icon: "carrito", active: true },
         { title: "Tiendas", path: "/tiendas", icon: "Tiendas", active: true },
         { title: "Sobre Nosotros", path: "/aboutus", icon: "aboutUs", active: true },
-        { title: "TiendasAdmin", path: "/tiendasAdmin", icon: "TiendasAdmin", active: false },
+        { title: "Tiendas-Admin", path: "/tiendasAdmin", icon: "TiendasAdmin", active: false },
         { title: "Usuario", path: "/InfoUsuario", icon: "user", active: false },
         { title: "Iniciar Sesion", path: "/login", icon: "face", active: false },
         {
@@ -109,9 +109,9 @@ export default {
           }
           
           //Productos
-          if (i.title == "ProductosAdmin" && user.rol == "admin") {
+          if (i.title == "Productos-Admin" && user.rol == "admin") {
             i.active = true;
-          } else if (i.title == "ProductosAdmin" && user.rol !== "admin") {
+          } else if (i.title == "Productos-Admin" && user.rol !== "admin") {
             i.active = false;
           }
           if (i.title == "Productos" && user.rol == "admin") {
@@ -121,9 +121,9 @@ export default {
           }
 
           //Tiendas
-          if (i.title == "TiendasAdmin" && user.rol == "admin") {
+          if (i.title == "Tiendas-Admin" && user.rol == "admin") {
             i.active = true;
-          } else if (i.title == "TiendasAdmin" && user.rol !== "admin") {
+          } else if (i.title == "Tiendas-Admin" && user.rol !== "admin") {
             i.active = false;
           }
           if (i.title == "Tiendas" && user.rol == "admin") {

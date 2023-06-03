@@ -2,16 +2,15 @@
   <v-container fluid>
     <div style="display: flex; align-items: center">
       <v-text-field
-  v-model="searchQuery"
-  label="Buscar tiendas"
-  filled
-  solo
-  dense
-  append-icon="mdi-magnify"
-  class="search-bar"
-  @keyup.enter="buscarTienda"
-></v-text-field>
-
+        v-model="searchQuery"
+        label="Buscar tiendas"
+        filled
+        solo
+        dense
+        append-icon="mdi-magnify"
+        class="search-bar"
+        @keyup.enter="buscarTienda"
+      ></v-text-field>
 
       <!-- <v-btn id="addTienda" @click="agregarTienda()" color="primary" dark>
         Añadir tienda
@@ -20,7 +19,13 @@
 
     <div>
       <v-row no-gutters>
-        <v-col style="padding-left: 20px;" v-for="item in tiendasCards" :key="item.id" cols="12" sm="4">
+        <v-col
+          style="padding-left: 20px"
+          v-for="item in tiendasCards"
+          :key="item.id"
+          cols="12"
+          sm="4"
+        >
           <v-card
             id="tarjeta"
             style="margin-bottom: 30px; border: 2px solid border-left: auto;;"
@@ -57,15 +62,7 @@
               </div>
             </v-card-text>
 
-            <v-card-actions>
-              <!-- <v-btn color="orange" @click="verTienda(tienda)"
-                  >Ver detalles</v-btn
-                > -->
-              <!-- <v-btn color="red" @click="eliminarTienda(item.id)"
-                  >Borrar</v-btn
-                > -->
-              <!-- <v-btn color="red" @click="deleteTienda(item.id)">Borrar</v-btn> -->
-            </v-card-actions>
+            <v-card-actions> </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
@@ -144,5 +141,4 @@ export default {
 .item-value {
   flex: 1;
 }
-
 </style>
