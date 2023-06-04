@@ -118,8 +118,10 @@
               <div><span class="popup-info-label">Id:</span> {{ selectedBook.id }}</div>
               <div><span class="popup-info-label">Fecha Publicacion:</span> {{ selectedBook.fechaPublicacion }}</div>
             </v-card-text>
+
+            <div class="privacy-policy" style="font-size: 10px; text-align: center; padding: 40px;">Política de Privacidad: En nuestra plataforma, nos comprometemos a proteger tu privacidad y tus datos personales. Al hacer clic en el botón "Añadir a la Cesta" a continuación, estás aceptando nuestras políticas de privacidad. Toda la información que nos proporciones será tratada de forma confidencial y utilizada únicamente para mejorar tu experiencia en nuestro sitio. Para obtener más detalles sobre cómo manejamos tus datos, te invitamos a leer nuestra política de privacidad.</div>
             <v-card-actions>
-              <v-btn color="orange" @click="comprarLibro(selectedBook)">Comprar</v-btn>
+              <v-btn color="orange" @click="comprarLibro(selectedBook)">Añadir a la Cesta</v-btn>
             </v-card-actions>
           </v-col>
         </v-row>
@@ -209,6 +211,10 @@ export default {
   .v-card__text div {
     font-size: 12px;
   }
+}
+
+.v-btn.v-btn--is-elevated.v-btn--has-bg.theme--light.v-size--default.orange{
+  background-color:#80461b !important ;
 }
 
 .div.container.container--fluid {
