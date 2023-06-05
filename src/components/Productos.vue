@@ -68,7 +68,7 @@
 
             <v-card-text>
               <div>Autor: {{ item.autor }}</div>
-              <div>Categorias: {{ item.categorias }}</div>
+              <div>Categorias: {{ item.categoriaId }}</div>
               <div>Paginas: {{ item.paginas }}</div>
               <div>Precio: {{ item.precio }}</div>
             </v-card-text>
@@ -102,11 +102,12 @@
             <v-card-title class="popup-title">{{ selectedBook.titulo }}</v-card-title>
             <v-card-text class="popup-info">
               <div><span class="popup-info-label">Autor:</span> {{ selectedBook.autor }}</div>
-              <div><span class="popup-info-label">Categorías:</span> {{ selectedBook.categorias }}</div>
+              <div><span class="popup-info-label">Categorías:</span> {{ selectedBook.categoriaId }}</div>
               <div><span class="popup-info-label">Páginas:</span> {{ selectedBook.paginas }}</div>
               <div><span class="popup-info-label">Precio:</span> {{ selectedBook.precio }}</div>
               <div><span class="popup-info-label">Id:</span> {{ selectedBook.id }}</div>
               <div><span class="popup-info-label">Fecha Publicacion:</span> {{ selectedBook.fechaPublicacion }}</div>
+              <div><span class="popup-info-label">ISBN:</span> {{ selectedBook.isbn }}</div>
             </v-card-text>
 
             <div class="privacy-policy" style="font-size: 10px; text-align: center; padding: 40px;">Política de Privacidad: En nuestra plataforma, nos comprometemos a proteger tu privacidad y tus datos personales. Al hacer clic en el botón "Añadir a la Cesta" a continuación, estás aceptando nuestras políticas de privacidad. Toda la información que nos proporciones será tratada de forma confidencial y utilizada únicamente para mejorar tu experiencia en nuestro sitio. Para obtener más detalles sobre cómo manejamos tus datos, te invitamos a leer nuestra política de privacidad.</div>

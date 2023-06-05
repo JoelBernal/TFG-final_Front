@@ -1,7 +1,8 @@
-<template>
-  <v-card>
-    <v-card-title class="primary mb-6">
-      <h2 class="text-white">Ajustes de Perfil</h2>
+<template >
+  <div style="padding: 10%; width: 700px;">
+  <v-card style="margin-left: 20%; ">
+    <v-card-title class="primary mb-6" id="tittle-form">
+      <h2 class="text-white" >Ajustes de Perfil</h2>
     </v-card-title>
     <v-card-text>
       <v-row>
@@ -54,15 +55,16 @@
     <v-card-actions>
       <v-spacer></v-spacer>
       <template v-if="!editing">
-        <v-btn color="primary" @click="editProfile">Editar</v-btn>
+        <v-btn color="#80461b" @click="editProfile">Editar</v-btn>
         <v-btn color="red" @click="logOut">Cerrar Sesión</v-btn>
       </template>
       <template v-else>
-        <v-btn color="success" @click="saveProfile">Guardar</v-btn>
+        <v-btn color="#80461b" @click="saveProfile">Guardar</v-btn>
         <v-btn color="error" @click="cancelEdit">Cancelar</v-btn>
       </template>
     </v-card-actions>
   </v-card>
+</div>
 </template>
 
 <script>
@@ -129,9 +131,13 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .primary {
-  background-color: #1976d2;
+  background-color: #80461b !important;
   color: #ffffff;
+}
+
+#tittle-form{
+  background-color: #80461b !important;
 }
 </style>

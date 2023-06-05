@@ -49,8 +49,8 @@
     name: "App",
     data: () => ({
       items: [
-        { title: "Libros", icon: "mdi-book", href: "/products" },
-        { title: "Tiendas", icon: "mdi-view-dashboard", href: "/tiendas" },
+        { title: "Libros", icon: "mdi-book", href: "/productosAdmin" },
+        { title: "Tiendas", icon: "mdi-view-dashboard", href: "/tiendasAdmin" },
         { title: "Ajustes", icon: "mdi-cog", href: "/InfoUsuario"},
       ],
     }),
