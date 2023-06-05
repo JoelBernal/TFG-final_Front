@@ -47,7 +47,7 @@ export default new Vuex.Store({
     establecerfiltrado(state, libro) {
       state.filtrado = libro;
     },
-    RegistrarUser(state,usuarios){
+    RegistrarUser(state, usuarios) {
       state.usuarios.push(usuarios);
     },
     BuscadorLibro(state, titulo) {
@@ -56,6 +56,34 @@ export default new Vuex.Store({
     BuscadorTienda(state, comunidad) {
       state.tienda = state.tienda.filter((tienda) => tienda.comunidad != comunidad);
     },
+    SET_USER(state, userInfo) {
+      state.usuario = userInfo;
+    },
+    SET_NAVIGATION(state, user) {
+      if (user) {
+        this.menuItems.forEach((i) => {
+          if (i.title == "Iniciar Sesion" || i.title == "Registrarse") {
+            i.active = false;
+          }
+          if (i.title == "Usuario") {
+            i.active = true;
+          }
+          if (i.title == "Usuarios" && user.rol == "admin") {
+            i.active = true;
+          } else if (i.title == "Usuarios" && user.rol !== "admin") {
+            i.active = false;
+          }
+          if (i.title == "ProductosAdmin" && user.rol == "admin") {
+            i.active = true;
+          } else if (i.title == "ProductosAdmin" && user.rol !== "admin") {
+            i.active = false;
+          }
+        });
+      } else {
+        // Establece los valores predeterminados o iniciales de la barra de navegación
+      }
+    }
+        
   },
 
   actions: {
@@ -90,7 +118,7 @@ export default new Vuex.Store({
       return await a.json();
     },
 
-    
+
 
     //Ordenar precio de mayor a menor
     OrdenarPrecioMayorMenor({ commit }) {
@@ -201,23 +229,23 @@ export default new Vuex.Store({
         });
     },
 
-        //Añadir Tienda
-        async agregarTienda({ commit }, libro) {
-          return await fetch('https://apitfgfinal2023.azurewebsites.net/Tiendas', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(libro)
-          })
-            .then(async response => await response.json())
-            .then(data => {
-              commit('agregarTienda', data);
-            })
-            .catch(error => {
-              console.error(error);
-            });
+    //Añadir Tienda
+    async agregarTienda({ commit }, libro) {
+      return await fetch('https://apitfgfinal2023.azurewebsites.net/Tiendas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
         },
+        body: JSON.stringify(libro)
+      })
+        .then(async response => await response.json())
+        .then(data => {
+          commit('agregarTienda', data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
 
     addToCarrito({ commit, state }, producto) {
       // Verificar si el libro ya está en el carrito
@@ -267,11 +295,11 @@ export default new Vuex.Store({
       await dispatch("login", data)
     },
 
-    async login ({commit, dispatch}, idUsuario){
+    async login({ commit, dispatch }, idUsuario) {
       let user = await dispatch("fetchUsuario", idUsuario);
       console.log(user);
       commit("Login", user);
-      
+
       Vue.$cookies.set("idUsuario", idUsuario)
     },
 
@@ -286,7 +314,7 @@ export default new Vuex.Store({
           },
           body: JSON.stringify(user),
         });
-        
+
         console.log(response);
         if (response.ok) {
           const data = await response.json();
@@ -295,7 +323,7 @@ export default new Vuex.Store({
           // Manejar los errores de respuesta HTTP
           console.error(`Error HTTP: ${response.status}`);
         }
-        
+
       } catch (error) {
         console.error(error);
       }
@@ -311,7 +339,7 @@ export default new Vuex.Store({
         console.error(error);
       }
     },
-    
+
     filterLibros(store, query) {
       return this.state.libro.filter(l => l.titulo.toLowerCase().includes(query.toLowerCase()) || l.autor.toLowerCase().includes(query.toLowerCase()));
     },
@@ -319,6 +347,36 @@ export default new Vuex.Store({
       return this.state.tienda.filter(l => l.comunidad.toLowerCase().includes(comunidad.toLowerCase()));
     },
 
+    async updateUser({ commit }, { usuario, updatedUserInfo,user }) {
+      console.log(usuario); // Añadir esta línea
+      console.log(usuario.idUsuario);
+      // console.log(userInfo); // Y esta otra línea
+      // userInfo.idUsuario = usuario.id;
+      console.log(updatedUserInfo);
+      const response = await fetch(`https://apitfgfinal2023.azurewebsites.net/Clientes/${usuario.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedUserInfo),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      let responseData = null;
+      try {
+        responseData = await response.json();
+      } catch (e) {
+        console.error('La respuesta no es un JSON válido:', e);
+      }
+
+      location.reload();
+      // Llamamos a la mutación 'SET_USER' para actualizar el estado
+      commit('SET_USER', responseData);
+      commit('SET_NAVIGATION', user);
+    },
   },
   modules: {},
 });
