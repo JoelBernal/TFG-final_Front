@@ -3,20 +3,35 @@
     <div>
       <Navbar />
     </div>
-    <div style="display: flex;">
+    <div>
       <div class="MenuClass">
         <MenuLateral></MenuLateral>
       </div>
-      <div style="display:flex; flex-direction:column; gap: 50px; margin-left: 15%">
-        <div style="display: flex; flex-direction: column; gap: 30px; margin-top: 35px ">
+      <div
+        style="
+          display: flex;
+          flex-direction: column;
+          gap: 50px;
+          margin-left: 15%;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 35px;
+          "
+        >
           <div>
-            <Productos/>
+            <h1 id="tituloProductos">PRODUCTOS</h1>
+            <Productos />
           </div>
         </div>
       </div>
     </div>
     <div>
-      <Footer/>
+      <Footer />
     </div>
   </div>
 </template>
@@ -26,7 +41,6 @@ import Navbar from "../components/Navbar.vue";
 import MenuLateral from "../components/MenuLateral.vue";
 import Productos from "../components/Productos.vue";
 import Footer from "../components/Footer.vue";
-
 
 export default {
   name: "Products",
@@ -41,11 +55,21 @@ export default {
   },
 };
 </script>
- 
+
 <style scoped>
 .MenuClass {
   height: auto;
   max-height: 100%;
 }
+#tituloProductos {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  color: #e9691e;
+  font-size: 54px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: underline;
+  margin-bottom: 20px;
+}
 </style>
- 

@@ -9,7 +9,7 @@
         dense
         append-icon="mdi-magnify"
         class="search-bar"
-        @keyup.enter="buscarLibro"
+        @input="buscarLibro"
       ></v-text-field>
 
       <v-menu offset-y>
@@ -18,19 +18,43 @@
         </template>
         <v-list>
           <v-list-item
-            @click="OrdenarPrecioPorDefecto(); dialog = true"
+            @click="
+              OrdenarPrecioPorDefecto();
+              dialog = true;
+            "
           >
             <v-list-item-title>Por defecto</v-list-item-title>
           </v-list-item>
           <v-list-item
-            @click="OrdenarPrecioMenorMayor(); dialog = true"
+            @click="
+              OrdenarPrecioMenorMayor();
+              dialog = true;
+            "
           >
             <v-list-item-title>Mayor a menor</v-list-item-title>
           </v-list-item>
           <v-list-item
-            @click="OrdenarPrecioMayorMenor(); dialog = true"
+            @click="
+              OrdenarPrecioMayorMenor();
+              dialog = true;
+            "
           >
             <v-list-item-title>Menor a mayor</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-btn id="orden" v-on="on">Categoría</v-btn>
+        </template>
+        <v-list>
+          <v-list-item
+            v-for="categoria in categorias"
+            :key="categoria.id"
+            @click="filtrarPorCategoria(categoria.id)"
+          >
+            <v-list-item-title>{{ categoria.nombre }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -39,7 +63,7 @@
     <div>
       <v-row no-gutters>
         <v-col
-          style="padding-left: 20px;"
+          style="padding-left: 20px"
           v-for="item in librosCards"
           :key="item.id"
           cols="12"
@@ -60,7 +84,7 @@
               cover
             >
             </v-img>
-            <v-card-title style="cursor: pointer;">
+            <v-card-title style="cursor: pointer">
               {{ item.titulo }}
             </v-card-title>
             <v-card-subtitle class="pt-4">
@@ -69,14 +93,16 @@
 
             <v-card-text>
               <div>Autor: {{ item.autor }}</div>
-              <div>Categorias: {{ item.categorias }}</div>
+              <div>Categorias: {{ namesCategoria[item.categoriaId] }}</div>
               <div>Paginas: {{ item.paginas }}</div>
               <div>Precio: {{ item.precio }}</div>
               <div>Id: {{ item.id }}</div>
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="orange" @click="comprarLibro(item)">Ver detalles</v-btn>
+              <v-btn color="orange" @click="comprarLibro(item)"
+                >Ver detalles</v-btn
+              >
               <v-btn color="red" @click="deleteLibro(item.id)">Borrar</v-btn>
             </v-card-actions>
           </v-card>
@@ -109,17 +135,38 @@
             ></v-img>
           </v-col>
           <v-col cols="12" md="6">
-            <v-card-title class="popup-title">{{ selectedBook.titulo }}</v-card-title>
+            <v-card-title class="popup-title">{{
+              selectedBook.titulo
+            }}</v-card-title>
             <v-card-text class="popup-info">
-              <div><span class="popup-info-label">Autor:</span> {{ selectedBook.autor }}</div>
-              <div><span class="popup-info-label">Categorías:</span> {{ selectedBook.categorias }}</div>
-              <div><span class="popup-info-label">Páginas:</span> {{ selectedBook.paginas }}</div>
-              <div><span class="popup-info-label">Precio:</span> {{ selectedBook.precio }}</div>
-              <div><span class="popup-info-label">Id:</span> {{ selectedBook.id }}</div>
-              <div><span class="popup-info-label">Fecha Publicacion:</span> {{ selectedBook.fechaPublicacion }}</div>
+              <div>
+                <span class="popup-info-label">Autor:</span>
+                {{ selectedBook.autor }}
+              </div>
+              <div>
+                <span class="popup-info-label">Categorías:</span>
+                {{ namesCategoria[selectedBook.categoriaId] }}
+              </div>
+              <div>
+                <span class="popup-info-label">Páginas:</span>
+                {{ selectedBook.paginas }}
+              </div>
+              <div>
+                <span class="popup-info-label">Precio:</span>
+                {{ selectedBook.precio }}
+              </div>
+              <div>
+                <span class="popup-info-label">Id:</span> {{ selectedBook.id }}
+              </div>
+              <div>
+                <span class="popup-info-label">Fecha Publicacion:</span>
+                {{ selectedBook.fechaPublicacion }}
+              </div>
             </v-card-text>
             <v-card-actions>
-              <v-btn color="orange" @click="comprarLibro(selectedBook)">Comprar</v-btn>
+              <v-btn color="orange" @click="comprarLibro(selectedBook)"
+                >Comprar</v-btn
+              >
             </v-card-actions>
           </v-col>
         </v-row>
@@ -142,6 +189,17 @@ export default {
       librosCards: [],
       showPopup: false,
       selectedBook: null,
+      categoriasLoaded: false,
+      namesCategoria: {
+        1: "Terror",
+        2: "Humor",
+        3: "Ficcion",
+        4: "Literatura",
+        5: "Fantasia",
+        6: "Poesia",
+        7: "Misterio y suspense",
+        8: "Autoayuda",
+      },
     };
   },
 
@@ -154,6 +212,7 @@ export default {
     ...mapActions(["addToCarrito"]),
     ...mapActions(["fetchLibroByName"]),
     ...mapActions(["filterLibros"]),
+    ...mapActions(["fetchCategorias"]),
 
     verDetalle(item) {
       this.selectedBook = item;
@@ -175,6 +234,11 @@ export default {
           console.error("Error al eliminar el libro:", error);
         });
     },
+    filtrarPorCategoria(categoriaId) {
+      this.librosCards = this.librosCards.filter((libro) =>
+        libro.categorias.includes(categoriaId)
+      );
+    },
   },
 
   computed: {
@@ -182,19 +246,25 @@ export default {
       return this.libro;
     },
     ...mapState(["libro"]),
+    ...mapState(["categorias"]),
   },
 
   created() {
     this.dispatch("fetchLibros");
+    this.fetchCategorias();
   },
 
   mounted() {
     this.buscarLibro();
+    this.fetchCategorias();
   },
 
   watch: {
     libro() {
       this.buscarLibro();
+    },
+    categorias() {
+      this.categoriasLoaded = true;
     },
   },
 };
