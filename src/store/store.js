@@ -228,24 +228,6 @@ export default new Vuex.Store({
         },
         body: JSON.stringify(libro)
       })
-      .then(async response => await response.json())
-      .then(data => {
-        commit('agregarLibro', data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    },
-
-    //Añadir Tienda
-    async agregarTienda({ commit }, libro) {
-      return await fetch('https://apitfgfinal2023.azurewebsites.net/Tiendas', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(libro)
-      })
         .then(async response => await response.json())
         .then(data => {
           commit('agregarTienda', data);
