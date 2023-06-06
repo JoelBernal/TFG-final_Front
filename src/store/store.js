@@ -219,10 +219,10 @@ export default new Vuex.Store({
         });
     },
 
-    //Actualizar libro
-    async actualizarLibro({ commit }, libro) {
-      return await fetch('https://apitfgfinal2023.azurewebsites.net/Libros', {
-        method: 'PUT',
+    //Añadir Tienda
+    async agregarTienda({ commit }, libro) {
+      return await fetch('https://apitfgfinal2023.azurewebsites.net/Tiendas', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },

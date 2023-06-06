@@ -9,7 +9,9 @@
         <div>Autor: {{ libros.autor }}</div>
         <div>Paginas: {{ libros.origin.paginas }}</div>
         <div>Fecha de Publicación: {{ libros.fechaPublicacion }}</div>
-        <div>Categoria: {{ libros.categoriaId.name }}</div>
+        <div>Categoria: {{ libros.categoriaId.nombre }}</div>
+        
+
         <!-- Agrega más atributos del personaje según tus necesidades -->
       </v-card-text>
     </v-card>
@@ -40,6 +42,20 @@ export default {
       );
       console.log(this.libro)
     },
+
+    getCategoryName(categoriaId) {
+      // Aquí realizarías la petición para obtener la categoría por su ID
+      this.$http.get('https://apitfgfinal2023.azurewebsites.net/Categorias/' + categoriaId)
+        .then(response => {
+          // Asumiendo que la respuesta contiene un objeto con un campo 'Nombre'
+          return response.data.nombre;
+        })
+        .catch(error => {
+          console.log(error);
+          return 'Error obteniendo nombre de categoría';
+        });
+    }
+
   },
   watch: {
     libros() {

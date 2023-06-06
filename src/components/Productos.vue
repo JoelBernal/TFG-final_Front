@@ -153,6 +153,8 @@
                 {{ selectedBook.fechaPublicacion }}
               </div>
             </v-card-text>
+            
+            <div class="privacy-policy" style="font-size: 10px; text-align: center; padding: 40px;">Política de Privacidad: En nuestra plataforma, nos comprometemos a proteger tu privacidad y tus datos personales. Al hacer clic en el botón "Añadir a la Cesta" a continuación, estás aceptando nuestras políticas de privacidad. Toda la información que nos proporciones será tratada de forma confidencial y utilizada únicamente para mejorar tu experiencia en nuestro sitio. Para obtener más detalles sobre cómo manejamos tus datos, te invitamos a leer nuestra política de privacidad.</div>
             <v-card-actions>
               <v-btn color="orange" @click="comprarLibro(selectedBook)"
                 >Comprar</v-btn
@@ -164,7 +166,6 @@
     </v-dialog>
   </v-container>
 </template>
-
 <script>
 import { mapState, mapActions } from "vuex";
 
@@ -202,9 +203,20 @@ export default {
     ...mapActions(["filterLibros"]),
     ...mapActions(["fetchCategorias"]),
 
-    verDetalle(item) {
+    verDetalle(item,) {
+   
       this.selectedBook = item;
       this.showPopup = true;
+      
+      this.getCategoryName(this.selectedBook.categoriaId)
+        .then(Nombre  => {
+            this.categoryName = Nombre ;
+        })
+        .catch(err => {
+            console.log(err);
+            
+            this.categoryName = 'Error obteniendo nombre de categoría';
+        });
     },
 
     async buscarLibro() {
@@ -248,6 +260,7 @@ export default {
 };
 </script>
 
+
 <style scoped>
 .search-bar {
   flex: 1;
@@ -284,6 +297,10 @@ export default {
 
 #tarjeta {
   cursor: pointer;
+}
+
+.v-btn.v-btn--is-elevated.v-btn--has-bg.theme--light.v-size--default.orange{
+  background-color:#80461b !important ;
 }
 
 @media (max-width: 600px) {

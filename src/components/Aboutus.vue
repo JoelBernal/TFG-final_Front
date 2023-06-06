@@ -1,13 +1,14 @@
 <template>
-    <div>
+    <div style="width: 100%;">
       <v-container style="margin-top: 55px;">
+        <div >
         <v-row>
           <v-col class="text-center">
             <h1>Acerca de nosotros</h1>
           </v-col>
         </v-row>
   
-        <v-row justify="center" style="margin-bottom: 20px;">
+        <v-row justify="center" style="margin-bottom: 20px; padding: 60px;">
           <v-col md="4">
             <v-img :src="aboutUsImage" max-height="500" contain></v-img>
           </v-col>
@@ -42,9 +43,11 @@
   
           </v-col>
         </v-row>
-  
+        <hr style="height: 5px; background-color: black;">
+      </div>
+      
         <!-- Sección del equipo -->
-        <v-row justify="center">
+        <v-row justify="center" style="margin-top: 20px;">
           <v-col class="text-center">
             <h2>Nuestro equipo</h2>
           </v-col>
