@@ -20,8 +20,16 @@
           <input type="text" id="autor" v-model="paginas" class="form-input" required>
         </div>
         <div class="form-group">
+          <label for="ISBN" class="form-label">Isbn:</label>
+          <input type="text" id="ISBN" v-model="Isbn" class="form-input" required>
+        </div>
+        <div class="form-group">
           <label for="genero" class="form-label">CategoríaId:</label>
           <input type="text" id="categoria" v-model="categoriaId" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label for="imagen" class="form-label">Imagen:</label>
+          <input type="text" id="categoria" v-model="Imagen" class="form-input" required>
         </div>
         <button type="submit" class="submit-button">Añadir</button>
       </form>
@@ -37,7 +45,9 @@ export default {
       precio: '',
       autor: '',
       paginas: '',
-      categoriaId: ''
+      categoriaId: '',
+      Isbn: '',
+      Imagen:''
     };
   },
   methods: {
@@ -50,7 +60,9 @@ export default {
         autor: this.autor,
         paginas: this.paginas,
         enVenta: true,
-        categoriaId: this.categoriaId
+        categoriaId: this.categoriaId,
+        ISBN: this.Isbn,
+        Imagen: this.Imagen
       });
       
       // Una vez que el libro se ha agregado correctamente, puedes restablecer los campos del formulario
@@ -59,6 +71,8 @@ export default {
       this.autor = '';
       this.paginas = '';
       this.categoriaId = '';
+      this.Isbn = '';
+      this.Imagen = '';
       
       // También puedes ocultar el formulario si deseas
       this.$emit('cerrar-formulario');
