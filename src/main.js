@@ -4,7 +4,11 @@ import store from './store/store.js'
 import vuetify from './plugins/vuetify'
 import router from './router/router.js'
 import VueCookies from './plugins/Cookies'
+import VueResource from 'vue-resource'
 
+
+
+Vue.use(VueResource)
 
 Vue.config.productionTip = false
 

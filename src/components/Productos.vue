@@ -68,9 +68,9 @@
 
             <v-card-text>
               <div>Autor: {{ item.autor }}</div>
-              <div>Categorias: {{ item.categoriaId }}</div>
               <div>Paginas: {{ item.paginas }}</div>
               <div>Precio: {{ item.precio }}</div>
+              <div>ISBN: {{ item.isbn }}</div>
             </v-card-text>
 
             <v-card-actions>
@@ -102,14 +102,15 @@
             <v-card-title class="popup-title">{{ selectedBook.titulo }}</v-card-title>
             <v-card-text class="popup-info">
               <div><span class="popup-info-label">Autor:</span> {{ selectedBook.autor }}</div>
-              <div><span class="popup-info-label">Categorías:</span> {{ selectedBook.categoriaId }}</div>
+              <div><span class="popup-info-label">Categoría:</span> {{ categoryName }}</div>
+              <div><span class="popup-info-label">Id Categoría:</span> {{ selectedBook.categoriaId }}</div>
               <div><span class="popup-info-label">Páginas:</span> {{ selectedBook.paginas }}</div>
               <div><span class="popup-info-label">Precio:</span> {{ selectedBook.precio }}</div>
               <div><span class="popup-info-label">Id:</span> {{ selectedBook.id }}</div>
               <div><span class="popup-info-label">Fecha Publicacion:</span> {{ selectedBook.fechaPublicacion }}</div>
               <div><span class="popup-info-label">ISBN:</span> {{ selectedBook.isbn }}</div>
             </v-card-text>
-
+            
             <div class="privacy-policy" style="font-size: 10px; text-align: center; padding: 40px;">Política de Privacidad: En nuestra plataforma, nos comprometemos a proteger tu privacidad y tus datos personales. Al hacer clic en el botón "Añadir a la Cesta" a continuación, estás aceptando nuestras políticas de privacidad. Toda la información que nos proporciones será tratada de forma confidencial y utilizada únicamente para mejorar tu experiencia en nuestro sitio. Para obtener más detalles sobre cómo manejamos tus datos, te invitamos a leer nuestra política de privacidad.</div>
             <v-card-actions>
               <v-btn color="orange" @click="comprarLibro(selectedBook)">Añadir a la Cesta</v-btn>
@@ -120,7 +121,6 @@
     </v-dialog>
   </v-container>
 </template>
-
 <script>
 import { mapState, mapActions } from "vuex";
 
@@ -135,6 +135,7 @@ export default {
       librosCards: [],
       showPopup: false,
       selectedBook: null,
+      categoryName:null,
     };
   },
 
@@ -146,14 +147,33 @@ export default {
     ...mapActions(["addToCarrito"]),
     ...mapActions(["filterLibros"]),
 
-    verDetalle(item) {
+    verDetalle(item,) {
+   
       this.selectedBook = item;
       this.showPopup = true;
+      
+      this.getCategoryName(this.selectedBook.categoriaId)
+        .then(Nombre  => {
+            this.categoryName = Nombre ;
+        })
+        .catch(err => {
+            console.log(err);
+            
+            this.categoryName = 'Error obteniendo nombre de categoría';
+        });
     },
 
     async buscarLibro() {
       this.librosCards = await this.filterLibros(this.searchQuery);
     },
+
+    async getCategoryName(categoriaId) {
+      console.log(categoriaId);
+    const response = await this.$http.get('https://apitfgfinal2023.azurewebsites.net/Categorias/' + categoriaId);
+    console.log(response.data);
+    console.log(response.data.nombre );
+    return response.data.nombre ;
+},
   },
 
   computed: {
@@ -178,6 +198,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 .popup-image {
