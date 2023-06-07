@@ -5,7 +5,7 @@
         <Navbar />
       </div>
   
-      <div style="display: flex;">
+      <div style="display: flex; justify-content: center;">
         <div class="MenuClass">
           <MenuLateral></MenuLateral>
         </div>
