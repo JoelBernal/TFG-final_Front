@@ -7,15 +7,22 @@
           <v-list-item-subtitle>Navigation drawers</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-divider></v-divider>
+
 
       <v-list dense nav>
-        <v-list-item v-for="item in items" :key="item.title" :to="item.href" link>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          :to="item.href"
+          link
+        >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="mandangon">{{ item.title }}</v-list-item-title>
+            <v-list-item-title class="mandangon">{{
+              item.title
+            }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="redirectToFormLibro" link>
@@ -23,7 +30,9 @@
             <v-icon>mdi-plus</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="añadirLibro">Añadir Libro (ADMIN)</v-list-item-title>
+            <v-list-item-title class="añadirLibro"
+              >Añadir Libro (ADMIN)</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
         <v-list-item @click="redirectToFormTienda" link>
@@ -31,12 +40,16 @@
             <v-icon>mdi-plus</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title class="añadirTienda">Añadir Tienda (ADMIN)</v-list-item-title>
+            <v-list-item-title class="añadirTienda"
+              >Añadir Tienda (ADMIN)</v-list-item-title
+            >
           </v-list-item-content>
         </v-list-item>
       </v-list>
 
-      <div style="display: flex; justify-content: center; margin-bottom: 20px;"></div>
+      <div
+        style="display: flex; justify-content: center; margin-bottom: 20px"
+      ></div>
     </v-navigation-drawer>
   </v-app>
 </template>
@@ -51,7 +64,7 @@ export default {
     items: [
       { title: "Libros", icon: "mdi-book", href: "/productosAdmin" },
       { title: "Tiendas", icon: "mdi-view-dashboard", href: "/tiendasAdmin" },
-      { title: "Ajustes", icon: "mdi-cog", href: "/InfoUsuario"},
+      { title: "Ajustes", icon: "mdi-cog", href: "/InfoUsuario" },
     ],
   }),
   components: {},

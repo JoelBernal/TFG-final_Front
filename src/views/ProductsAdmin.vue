@@ -5,7 +5,7 @@
     </div>
     <div style="background-color: antiquewhite">
       <div class="MenuClass">
-        <MenuLateral></MenuLateral>
+        <MenuLateralAdmin/>
       </div>
       <div
         style="
@@ -23,7 +23,7 @@
             margin-top: 35px;
           "
         >
-          <div>
+          <div class="menuProductos">
             <h1 id="tituloProductos">PRODUCTOS</h1>
             <ProductosAdmin />
           </div>
@@ -38,7 +38,7 @@
 
 <script>
 import Navbar from "../components/Navbar.vue";
-import MenuLateral from "../components/MenuLateral.vue";
+import MenuLateralAdmin from "../components/MenuLateralAdmin.vue";
 import ProductosAdmin from "../components/ProductosAdmin.vue";
 import Footer from "../components/Footer.vue";
 
@@ -47,7 +47,7 @@ export default {
   components: {
     Navbar,
     ProductosAdmin,
-    MenuLateral,
+    MenuLateralAdmin,
     Footer,
   },
   props: {
@@ -62,15 +62,23 @@ export default {
   max-height: 100%;
 }
 #tituloProductos {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  color: #e9691e;
-  font-size: 54px;
-  font-weight: bold;
-  text-transform: uppercase;
-  text-decoration: underline;
-  margin-bottom: 20px;
+  text-align: 
+  center; color: #333; 
+  font-size: 48px; 
+  font-family: 'Arial', sans-serif; 
+  text-shadow: 2px 2px 4px rgba(1, 9, 10, 0.7); 
+  padding: 10px;
+}
+
+@media (max-width: 1650px) {
+  .menuProductos {
+    margin-left: 40px;
+  }
+}
+@media (max-width: 1400px) {
+  .menuProductos {
+    margin-left: 40px;
+  }
 }
 
 </style>

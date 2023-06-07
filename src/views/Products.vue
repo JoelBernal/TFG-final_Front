@@ -65,7 +65,7 @@ export default {
   display: flex;
   text-align: center;
   justify-content: center;
-  color: #e9691e;
+  color: #000000;
   font-size: 54px;
   font-weight: bold;
   text-transform: uppercase;
