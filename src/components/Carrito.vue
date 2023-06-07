@@ -1,73 +1,126 @@
 <template>
-  <div class="cart">
-    <v-card>
-      <v-card-title>
-        <h2>Carrito de Compra</h2>
-      </v-card-title>
-      <v-card-text>
-        <table class="cart-table">
-          <thead>
-            <tr>
-              <th>Imagen</th>
-              <th>Título</th>
-              <th>Precio</th>
-              <th>Cantidad</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in cartItems" :key="item.id">
-              <td><img :src="item.image" :alt="item.title" /></td>
-              <td>{{ item.title }}</td>
-              <td>{{ item.price }}</td>
-              <td>{{ item.quantity }}</td>
-              <td>
-                <button @click="removeItem(item.id)" class="cart-item-remove-btn">Eliminar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="cart-total">
-          <p>Total: {{ getTotalPrice() }}</p>
-        </div>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn @click="checkout" color="primary">Pagar</v-btn>
-      </v-card-actions>
-    </v-card>
+  <div>
+    <div class="cart">
+      <h2>Mi Carrito</h2>
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Imagen</th>
+            <th>Título</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(book, index) in cart" :key="book.id">
+            <td>{{ index + 1 }}</td>
+            <td>
+              <img :src="book.imagen" alt="Book image" class="book-image" />
+            </td>
+            <td>{{ book.titulo }}</td>
+            <td>{{ book.precio }}€</td>
+            <td>
+              <button class="remove-btn" @click="removeFromCart(book)">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="payment-form">
+        <h3 style="text-align: center;margin-bottom: 20px;margin-top: 20px;">Información de Pago</h3>
+        <form @submit.prevent="checkout">
+          <div class="form-group">
+            <label for="cardName">Nombre en la tarjeta</label>
+            <input id="cardName" v-model="cardName" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="cardNumber">Número de tarjeta</label>
+            <input id="cardNumber" v-model="cardNumber" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="expiryDate">Fecha de vencimiento</label>
+            <input id="expiryDate" v-model="expiryDate" type="text" required>
+          </div>
+          <div class="form-group">
+            <label for="cvv">CVV</label>
+            <input id="cvv" v-model="cvv" type="text" required>
+          </div>
+          <button type="submit" style="width: 100%;" class="pay-button">Pagar</button>
+        </form>
+
+        <div v-if="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+      </div>
+    </div>
   </div>
 </template>
 
+
 <script>
+import { mapMutations } from 'vuex';
+import Cookies from 'js-cookie';
+
 export default {
+  computed: {
+    cart() {
+      return this.$store.state.cart;
+    },
+  },
   data() {
     return {
-      cartItems: []
+      cardName: '',
+      cardNumber: '',
+      expiryDate: '',
+      cvv: '',
+      errorMessage: '',
     };
   },
   methods: {
-    removeItem(itemId) {
-      this.cartItems = this.cartItems.filter(item => item.id !== itemId);
-    },
-    getTotalPrice() {
-      return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
-    },
-    checkout() {
-      console.log('Realizando pago...');
-    }
+    ...mapMutations(['removeFromCart', 'clearCart', 'LibrosClientesPost']),
+
+    async checkout() {
+  try {
+    // Recuperando el id del cliente de las cookies
+    const idCliente = Cookies.get('idUsuario');
+    
+    // Preparando la lista de libros
+    const libros = this.cart.map((book) => ({
+      idCliente: idCliente,
+      idlibro: book.id,
+      nombreLibro: book.titulo,
+    }));
+    console.log(libros);
+    // Enviando los libros a la API
+    await this.LibrosClientesPost(libros);
+
+    // Limpieza del carrito de compras
+    this.clearCart();
+
+    // Redireccionando al usuario a la página de agradecimiento
+    this.$router.push('/Gracias');
+
+    // Limpiar el mensaje de error en caso de éxito
+    this.errorMessage = '';
+  } catch (error) {
+    // En caso de error, imprimirlo en la consola y establecer el mensaje de error
+    console.error('Error al realizar el pago:', error);
+    this.errorMessage = 'Hubo un error al realizar el pago. Por favor, intenta de nuevo.';
   }
+},
+
+  },
 };
 </script>
 
+
+
 <style scoped>
 .cart {
-  margin: 20px;
-}
-
-.cart h2 {
-  margin-top: 0;
-  font-size: 24px;
-  text-align: center;
+  padding: 2rem;
+  font-family: 'Roboto', sans-serif;
 }
 
 .cart-table {
@@ -77,38 +130,62 @@ export default {
 
 .cart-table th,
 .cart-table td {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
-  text-align: left;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  text-align: center;
 }
 
 .cart-table th {
-  background-color: #f5f5f5;
-  font-weight: bold;
-}
-
-.cart-table img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-}
-
-.cart-total {
-  text-align: right;
-  margin-top: 20px;
-}
-
-.cart-total p {
-  font-size: 16px;
-}
-
-.cart-item-remove-btn {
-  background-color: #dc3545;
+  background-color: #80461b;
   color: white;
+}
+
+.book-image {
+  width: 50px;
+  height: 50px;
+}
+
+.remove-btn {
+  background-color: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+.payment-form {
+  width: 400px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.pay-button {
+  background-color: #80461b;
+  color: white;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
   cursor: pointer;
+}
+
+.pay-button:hover {
+  background-color: #80461b;
 }
 </style>
 

@@ -1,7 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import createPersistedState from 'vuex-persistedstate';
 import Notifications from "vue-notification";
+
 
 Vue.use(Vuex);
 Vue.use(Notifications);
@@ -16,6 +17,8 @@ export default new Vuex.Store({
     libroOrdenar: [],
     usuario: null,
     categorias: [],
+    cart: [],
+    LibrosClientes: [],
   },
   mutations: {
     initLibro(state, libro) {
@@ -59,7 +62,23 @@ export default new Vuex.Store({
     },
     BuscadorTienda(state, comunidad) {
       state.tienda = state.tienda.filter((tienda) => tienda.comunidad != comunidad);
-    },        
+    },   
+    addToCart(state, item) {
+      state.cart.push(item);
+    },
+    removeFromCart(state, item) {
+      const index = state.cart.indexOf(item);
+      if (index > -1) {
+        state.cart.splice(index, 1);
+      }
+    },
+    clearCart(state) {
+      state.cart = [];
+    },
+    LibrosClientesPost(state, libros) {
+      state.LibrosClientes.push(...libros);
+    },
+    
   },
 
   actions: {
@@ -367,6 +386,90 @@ export default new Vuex.Store({
       commit('SET_USER', responseData);
       commit('SET_NAVIGATION', user);
     },
+
+    addToCart({ commit }, item) {
+      commit('addToCart', item);
+    },
+    removeFromCart({ commit }, item) {
+      commit('removeFromCart', item);
+    },
+
+    // async submitOrder({ commit, state  },user) {
+    //   const url = 'https://apitfgfinal2023.azurewebsites.net/LibrosClientes';
+      
+    //   for (const item of state.cart) {
+    //     let idCliente = user.idUsuario;
+    //      // debug de idCliente
+  
+    //     let idLibro = item.id;
+    //     console.log('idLibro:', idLibro); // debug de idLibro
+  
+    //     let nombreLibro = item.titulo;
+    //     console.log('nombreLibro:', nombreLibro); // debug de nombreLibro
+  
+    //     const data = { idCliente, idLibro, nombreLibro };
+      
+    //     try {
+    //       const response = await fetch(url, {
+    //         method: 'POST',
+    //         headers: {
+    //           'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(data)
+    //       });
+      
+    //       if (!response.ok) {
+    //         throw new Error(`HTTP error! status: ${response.status}`);
+    //       } else {
+    //         console.log('La orden se ha enviado con éxito');
+    //       }
+    //     } catch (error) {
+    //       console.log('Hubo un problema con la operación fetch: ', error);
+    //     }
+    //   }
+  
+    //   commit('CLEAR_CART');
+    // },
+
+    
+    async LibrosClientesPost({ commit }, libros) {
+      try {
+        const url = 'https://apitfgfinal2023.azurewebsites.net/LibrosClientes';
+    
+        console.log('Libros que se enviarán:', libros);  // Añadido para depuración
+    
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(libros)
+        });
+    
+        console.log('Respuesta de la API:', response);  // Añadido para depuración
+    
+        if (response.ok) {
+          const data = await response.json();
+    
+          console.log('Datos devueltos por la API:', data);  // Añadido para depuración
+    
+          commit('LibrosClientesPost', data);
+          return Promise.resolve(); // Devuelve una promesa resuelta
+        } else {
+          throw new Error('Error al enviar los libros');
+        }
+      } catch (error) {
+        console.error('Error en la acción LibrosClientesPost:', error);
+        throw error;
+      }
+    },
+    
+    
+    
+    
+    
+    
   },
+  plugins: [createPersistedState()],
   modules: {},
 });

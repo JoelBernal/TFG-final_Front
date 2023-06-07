@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions,mapMutations } from "vuex";
 import Cookies from 'js-cookie';
 
 export default {
@@ -83,6 +83,10 @@ export default {
   },
   methods: {
     ...mapActions(["updateUser"]),
+
+    ...mapMutations([
+      'clearCart' // map `this.clearCart()` to `this.$store.commit('clearCart')`
+    ]),
     editProfile() {
       this.editing = true;
       // Guarda una copia de seguridad de la información original del usuario antes de la edición
@@ -113,7 +117,6 @@ export default {
       this.$store.dispatch('updateUser', { usuario: this.usuario, updatedUserInfo: updatedUserInfo });
 
 
-
       this.dialog = true;
       this.editing = false;
       this.originalUserInfo = null;
@@ -136,6 +139,7 @@ export default {
     logOut(usuario) {
       console.log(usuario)
       Cookies.remove('idUsuario');
+      this.clearCart();
       this.$router.push('/home');
       location.reload();
     }

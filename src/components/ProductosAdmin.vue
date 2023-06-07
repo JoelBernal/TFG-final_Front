@@ -100,9 +100,7 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="orange" @click="comprarLibro(item)"
-                >Ver detalles</v-btn
-              >
+              <v-btn color="orange" @click="verDetalle(item)">Ver detalles</v-btn>
               <v-btn color="red" @click="deleteLibro(item.id)">Borrar</v-btn>
             </v-card-actions>
           </v-card>
@@ -166,9 +164,7 @@
               mejorar tu experiencia en nuestro sitio. Para obtener más detalles sobre cómo manejamos tus datos, te
               invitamos a leer nuestra política de privacidad.</div>
             <v-card-actions>
-              <v-btn color="orange" @click="comprarLibro(selectedBook)"
-                >Comprar</v-btn
-              >
+              <v-btn color="orange" @click.stop="comprarLibro(selectedBook)">Comprar</v-btn>
             </v-card-actions>
           </v-col>
         </v-row>
@@ -211,7 +207,7 @@ export default {
     ...mapActions(["OrdenarPrecioMayorMenor"]),
     ...mapActions(["OrdenarPrecioMenorMayor"]),
     ...mapActions(["OrdenarPrecioPorDefecto"]),
-    ...mapActions(["addToCarrito"]),
+    ...mapActions(["addToCart"]),
     ...mapActions(["fetchLibroByName"]),
     ...mapActions(["filterLibros"]),
     ...mapActions(["fetchCategorias"]),
@@ -258,6 +254,12 @@ export default {
         libro.categorias.includes(categoriaId)
       );
     },
+
+    comprarLibro(selectedBook) {
+    this.$store.dispatch('addToCart', selectedBook);
+    
+  },
+
   },
 
   computed: {

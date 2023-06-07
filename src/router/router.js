@@ -14,6 +14,7 @@ import Tiendas from '../views/Tiendas'
 import TiendasAdmin from '../views/TiendasAdmin'
 import Pdp from '../views/Pdp'
 import AboutUs from '../views/AboutUs'
+import PGracias from '../views/PGracias'
 
 Vue.use(VueRouter)
 
@@ -92,6 +93,11 @@ const routes = [
     path: "/AboutUs",
     name: "Sobre Nosotros",
     component: AboutUs
+  },
+  {
+    path: "/Gracias",
+    name: "Gracias",
+    component: PGracias
   },
 ];
 
