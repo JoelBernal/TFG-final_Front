@@ -1,7 +1,7 @@
 <template>
 <div >
     <h3 style="text-align: center;margin-bottom: 20px;margin-top: 20px;">Información de Pago</h3>
-    <div class="payment-form">
+    <div class="payment-form" style="padding: 25%;">
       <form @submit.prevent="submitPayment">
         <div class="form-group">
           <label for="cardName">Nombre en la tarjeta</label>
@@ -52,6 +52,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 .payment-form {
   
   width: 400px;

@@ -168,6 +168,7 @@
 </template>
 <script>
 import { mapState, mapActions } from "vuex";
+import Cookies from 'js-cookie';
 
 export default {
   name: "Cards",
@@ -218,6 +219,28 @@ export default {
             this.categoryName = 'Error obteniendo nombre de categoría';
         });
     },
+
+    ...mapActions(["LibrosClientesPost"]),
+    async comprarLibro(selectedBook) {
+  try {
+    const idCliente = +Cookies.get('idUsuario');
+    console.log('idCliente:', idCliente);
+
+    const libroCliente = {
+      
+      idCliente: idCliente || this.$props.IdCliente,
+      idlibro: selectedBook.id,
+      nombreLibro: selectedBook.titulo,
+    };
+    console.log('libroCliente:', libroCliente);
+
+    await this.LibrosClientesPost([libroCliente]);
+
+    // Resto del código...
+  } catch (error) {
+    console.error("Error al comprar el libro:", error);
+  }
+},
 
     async buscarLibro() {
       this.librosCards = await this.filterLibros(this.searchQuery);

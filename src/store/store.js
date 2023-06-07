@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import createPersistedState from 'vuex-persistedstate';
 import Notifications from "vue-notification";
 
 
@@ -417,12 +416,26 @@ export default new Vuex.Store({
       }
     },
     
-    
-    
+    // async LibrosClientesPost({ commit }, libros) {
+    //   return await fetch('https://apitfgfinal2023.azurewebsites.net/LibrosClientes', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(libros)
+    //   })
+    //     .then(async response => await response.json())
+    //     .then(data => {
+    //       commit('LibrosClientesPost', data);
+    //     })
+    //     .catch(error => {
+    //       console.error(error);
+    //     });
+    // },
     
     
     
   },
-  plugins: [createPersistedState()],
+ 
   modules: {},
 });

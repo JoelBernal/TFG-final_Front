@@ -75,7 +75,7 @@
             class="mx-auto"
             max-width="400"
             tile
-            @click="verDetalle(item)"
+            
           >
             <v-img
               class="align-end text-white"

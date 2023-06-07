@@ -7,7 +7,6 @@ import Products from '../views/Products'
 import ProductosAdmin from '../views/ProductsAdmin'
 import Usuarios from '../views/Usuarios'
 import InfoUsuario from '../views/InfoUsuario'
-import Carrito from '../views/Carrito'
 import FormLibro from '../views/FormLibro'
 import FormTienda from '../views/FormTienda'
 import Tiendas from '../views/Tiendas'
@@ -15,6 +14,7 @@ import TiendasAdmin from '../views/TiendasAdmin'
 import Pdp from '../views/Pdp'
 import AboutUs from '../views/AboutUs'
 import PGracias from '../views/PGracias'
+import Checkout from '../views/Chekcout.vue'
 
 Vue.use(VueRouter)
 
@@ -60,11 +60,6 @@ const routes = [
     component: InfoUsuario
   },
   {
-    path: "/carrito",
-    name: "Carrito",
-    component: Carrito
-  },
-  {
     path: "/formLibro",
     name: "FormLibro",
     component: FormLibro
@@ -98,6 +93,11 @@ const routes = [
     path: "/Gracias",
     name: "Gracias",
     component: PGracias
+  },
+  {
+    path: "/checkout",
+    name: "Checkout",
+    component: Checkout
   },
 ];
 

@@ -76,7 +76,7 @@ export default {
           icon: "usuarios",
           active: false,
         },
-        { title: "Carrito", path: "/carrito", icon: "carrito", active: true },
+
         { title: "Tiendas", path: "/tiendas", icon: "Tiendas", active: true },
         {
           title: "Sobre Nosotros",
