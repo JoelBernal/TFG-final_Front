@@ -223,11 +223,11 @@ export default {
       this.librosCards = await this.filterLibros(this.searchQuery);
     },
 
+    // Función para filtrar libros por categoría
     filtrarPorCategoria(categoriaId) {
-      this.librosCards = this.librosCards.filter((libro) =>
-        libro.categorias.includes(categoriaId)
-      );
+      this.librosCards = this.libro.filter(l => l.categoriaId === categoriaId)
     },
+
   },
 
   computed: {
