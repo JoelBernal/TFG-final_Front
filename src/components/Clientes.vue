@@ -2,7 +2,7 @@
   <v-container fluid>
     <div id="tarjetas">
       <v-row no-gutters>
-        <v-col v-for="item in usuarios" :key="item.id" cols="12" sm="6">
+        <v-col style="padding-left: 20px;" v-for="item in usuarios" :key="item.id" cols="12" sm="4">
           <v-card
             id="tarjeta"
             style="margin-bottom: 30px"

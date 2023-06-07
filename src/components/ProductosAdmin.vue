@@ -246,8 +246,6 @@ export default {
       this.librosCards = await this.filterLibros(this.searchQuery);
     },
 
-
-
     // Borrar Libro
     deleteLibro(id) {
       this.$store
@@ -262,7 +260,9 @@ export default {
 
     // Función para filtrar libros por categoría
     filtrarPorCategoria(categoriaId) {
-      this.librosCards = this.libro.filter(l => l.categoriaId === categoriaId)
+      this.librosCards = this.libro.filter(
+        (l) => l.categoriaId === categoriaId
+      );
     },
 
     comprarLibro(selectedBook) {
@@ -369,6 +369,12 @@ export default {
 
   #orden {
     margin: 10px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .v-row {
+    cols: 6 !important;
   }
 }
 </style>

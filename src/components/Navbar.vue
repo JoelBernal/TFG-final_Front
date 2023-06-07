@@ -12,16 +12,13 @@
         src="https://images.vexels.com/media/users/3/267831/isolated/preview/cd079d709300f6af3cdfa75b83d35db8-icono-de-libros-acogedores-de-invierno.png"
         alt=""
       />
-      <v-app-bar-title
-        style="
-          width: 100%;
-          font-size: 37px;
-          font-family: serif;
-          margin-left: 10px;
-        "
+      <v-app-bar-title class="tituloNavBar"
         >LIBRERIAS PACO</v-app-bar-title
       >
-      <v-toolbar-items style="gap: 0px; width: 70%" class="hidden-xs-only menuBotones">
+      <v-toolbar-items
+        style="gap: 0px; width: 70%"
+        class="hidden-xs-only menuBotones"
+      >
         <v-btn
           style="background-color: #272727"
           text
@@ -31,13 +28,28 @@
           >{{ item.title }}</v-btn
         >
       </v-toolbar-items>
-      <i class="bi bi-list menuDesplegables"></i>
+      <i class="bi bi-list menuDesplegables" @click="sidebar = !sidebar"></i>
+      <v-navigation-drawer v-model="sidebar" app right>
+        <v-list>
+          <v-list-item
+            v-for="item in menuItems.filter((a) => a.active)"
+            :key="item.title"
+            :to="item.path"
+            link
+          >
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
     </v-app-bar>
   </v-app>
 </template>
 
 <script>
 import { mapState } from "vuex";
+
 export default {
   name: "App",
   data() {
@@ -66,10 +78,25 @@ export default {
         },
         { title: "Carrito", path: "/carrito", icon: "carrito", active: true },
         { title: "Tiendas", path: "/tiendas", icon: "Tiendas", active: true },
-        { title: "Sobre Nosotros", path: "/aboutus", icon: "aboutUs", active: true },
-        { title: "Tiendas-Admin", path: "/tiendasAdmin", icon: "TiendasAdmin", active: false },
+        {
+          title: "Sobre Nosotros",
+          path: "/aboutus",
+          icon: "aboutUs",
+          active: true,
+        },
+        {
+          title: "Tiendas-Admin",
+          path: "/tiendasAdmin",
+          icon: "TiendasAdmin",
+          active: false,
+        },
         { title: "Usuario", path: "/InfoUsuario", icon: "user", active: false },
-        { title: "Iniciar Sesion", path: "/login", icon: "face", active: false },
+        {
+          title: "Iniciar Sesion",
+          path: "/login",
+          icon: "face",
+          active: false,
+        },
         {
           title: "Registrarse",
           path: "/register",
@@ -108,7 +135,7 @@ export default {
           } else if (i.title == "ProductosAdmin" && user.rol !== "admin") {
             i.active = false;
           }
-          
+
           //Productos
           if (i.title == "Productos-Admin" && user.rol == "admin") {
             i.active = true;
@@ -132,7 +159,6 @@ export default {
           } else if (i.title == "Tiendas" && user.rol !== "admin") {
             i.active = true;
           }
-
         });
       } else {
         this.menuItems.forEach((i) => {
@@ -161,8 +187,7 @@ export default {
   min-height: 6vh;
   max-width: 100%;
   position: relative;
-  background-color: antiquewhite
-  
+  background-color: antiquewhite;
 }
 
 .v-toolbar__content {
@@ -187,17 +212,33 @@ export default {
   margin-left: 10px;
 }
 
-.menuDesplegables{
+.tituloNavBar {
+  width: 100%;
+  font-size: 37px;
+  font-family: serif;
+  margin-left: 10px;
+}
+
+.menuDesplegables {
   display: none;
+  cursor: pointer;
 }
 
 @media (max-width: 1300px) {
   .menuBotones {
     display: none;
   }
-  .menuDesplegables{
+  .menuDesplegables {
     display: block;
     margin-right: 30px;
+  }
+}
+@media (max-width: 400px) {
+  .tituloNavBar{
+    font-size: 20px;
+  }
+  .logoImgNavBar {
+    width: 40px;
   }
 }
 </style>

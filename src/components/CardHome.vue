@@ -1,5 +1,5 @@
 <template>
-  <div class="divGeneral" style="display: flex;">
+  <div class="divGeneral" style="display: flex; justify-content: center;">
     <v-item-group selected-class="bg-primary">
       <v-container>
         <!-- Fila -->

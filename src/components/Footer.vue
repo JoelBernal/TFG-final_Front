@@ -9,8 +9,7 @@
             <v-icon>{{ icon }}</v-icon>
           </v-btn>
         </v-col>
-       
-        <!-- <v-icon>mdi-vuetify</v-icon> -->
+
       </v-row>
     </v-footer>
   </v-app>
