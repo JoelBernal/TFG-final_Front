@@ -3,7 +3,7 @@
     <div>
       <Navbar />
     </div>
-    <div>
+    <div style="background-color: antiquewhite">
       <div class="MenuClass">
         <MenuLateral></MenuLateral>
       </div>
@@ -72,4 +72,5 @@ export default {
   text-decoration: underline;
   margin-bottom: 20px;
 }
+
 </style>

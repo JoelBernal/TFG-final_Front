@@ -338,16 +338,7 @@ export default new Vuex.Store({
       }
     },
 
-
-    async fetchLibroByName({ commit }, titulo) {
-      try {
-        const response = await fetch(`https://apitfgfinal2023.azurewebsites.net/Libros/titulo/${titulo}`);
-        const libro = await response.json();
-        commit("initLibro", libro);
-      } catch (error) {
-        console.error(error);
-      }
-    },
+    
 
     filterLibros(store, query) {
       return this.state.libro.filter(l => l.titulo.toLowerCase().includes(query.toLowerCase()) || l.autor.toLowerCase().includes(query.toLowerCase()));
@@ -393,44 +384,6 @@ export default new Vuex.Store({
     removeFromCart({ commit }, item) {
       commit('removeFromCart', item);
     },
-
-    // async submitOrder({ commit, state  },user) {
-    //   const url = 'https://apitfgfinal2023.azurewebsites.net/LibrosClientes';
-      
-    //   for (const item of state.cart) {
-    //     let idCliente = user.idUsuario;
-    //      // debug de idCliente
-  
-    //     let idLibro = item.id;
-    //     console.log('idLibro:', idLibro); // debug de idLibro
-  
-    //     let nombreLibro = item.titulo;
-    //     console.log('nombreLibro:', nombreLibro); // debug de nombreLibro
-  
-    //     const data = { idCliente, idLibro, nombreLibro };
-      
-    //     try {
-    //       const response = await fetch(url, {
-    //         method: 'POST',
-    //         headers: {
-    //           'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(data)
-    //       });
-      
-    //       if (!response.ok) {
-    //         throw new Error(`HTTP error! status: ${response.status}`);
-    //       } else {
-    //         console.log('La orden se ha enviado con éxito');
-    //       }
-    //     } catch (error) {
-    //       console.log('Hubo un problema con la operación fetch: ', error);
-    //     }
-    //   }
-  
-    //   commit('CLEAR_CART');
-    // },
-
     
     async LibrosClientesPost({ commit }, libros) {
       try {

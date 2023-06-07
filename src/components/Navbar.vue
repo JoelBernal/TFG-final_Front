@@ -21,7 +21,7 @@
         "
         >LIBRERIAS PACO</v-app-bar-title
       >
-      <v-toolbar-items style="gap: 0px; width: 70%" class="hidden-xs-only">
+      <v-toolbar-items style="gap: 0px; width: 70%" class="hidden-xs-only menuBotones">
         <v-btn
           style="background-color: #272727"
           text
@@ -31,6 +31,7 @@
           >{{ item.title }}</v-btn
         >
       </v-toolbar-items>
+      <i class="bi bi-list menuDesplegables"></i>
     </v-app-bar>
   </v-app>
 </template>
@@ -160,6 +161,7 @@ export default {
   min-height: 6vh;
   max-width: 100%;
   position: relative;
+  background-color: antiquewhite
   
 }
 
@@ -183,5 +185,19 @@ export default {
 .logoImgNavBar {
   width: 65px;
   margin-left: 10px;
+}
+
+.menuDesplegables{
+  display: none;
+}
+
+@media (max-width: 1300px) {
+  .menuBotones {
+    display: none;
+  }
+  .menuDesplegables{
+    display: block;
+    margin-right: 30px;
+  }
 }
 </style>

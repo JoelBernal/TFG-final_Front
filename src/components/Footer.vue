@@ -40,6 +40,7 @@ export default {
     flex-direction: column;
     max-width: 100%;
     position: relative;
+    background-color: antiquewhite
     }
 
     .container {

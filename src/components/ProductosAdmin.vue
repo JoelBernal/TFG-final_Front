@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <div style="display: flex; align-items: center">
+    <div class="filtros">
       <v-text-field
         v-model="searchQuery"
         label="Buscar libros o autor"
@@ -100,7 +100,9 @@
             </v-card-text>
 
             <v-card-actions>
-              <v-btn color="orange" @click="verDetalle(item)">Ver detalles</v-btn>
+              <v-btn color="orange" @click="verDetalle(item)"
+                >Ver detalles</v-btn
+              >
               <v-btn color="red" @click="deleteLibro(item.id)">Borrar</v-btn>
             </v-card-actions>
           </v-card>
@@ -125,7 +127,12 @@
       <v-card v-if="selectedBook">
         <v-row no-gutters>
           <v-col cols="12" md="6">
-            <v-img :src="selectedBook.imagen" height="500" :alt="selectedBook.titulo" class="popup-image"></v-img>
+            <v-img
+              :src="selectedBook.imagen"
+              height="500"
+              :alt="selectedBook.titulo"
+              class="popup-image"
+            ></v-img>
           </v-col>
           <v-col cols="12" md="6">
             <v-card-title class="popup-title">{{
@@ -157,14 +164,23 @@
               </div>
             </v-card-text>
 
-            <div class="privacy-policy" style="font-size: 10px; text-align: center; padding: 40px;">Política de
-              Privacidad: En nuestra plataforma, nos comprometemos a proteger tu privacidad y tus datos personales. Al
-              hacer clic en el botón "Añadir a la Cesta" a continuación, estás aceptando nuestras políticas de privacidad.
-              Toda la información que nos proporciones será tratada de forma confidencial y utilizada únicamente para
-              mejorar tu experiencia en nuestro sitio. Para obtener más detalles sobre cómo manejamos tus datos, te
-              invitamos a leer nuestra política de privacidad.</div>
+            <div
+              class="privacy-policy"
+              style="font-size: 10px; text-align: center; padding: 40px"
+            >
+              Política de Privacidad: En nuestra plataforma, nos comprometemos a
+              proteger tu privacidad y tus datos personales. Al hacer clic en el
+              botón "Añadir a la Cesta" a continuación, estás aceptando nuestras
+              políticas de privacidad. Toda la información que nos proporciones
+              será tratada de forma confidencial y utilizada únicamente para
+              mejorar tu experiencia en nuestro sitio. Para obtener más detalles
+              sobre cómo manejamos tus datos, te invitamos a leer nuestra
+              política de privacidad.
+            </div>
             <v-card-actions>
-              <v-btn color="orange" @click.stop="comprarLibro(selectedBook)">Comprar</v-btn>
+              <v-btn color="orange" @click.stop="comprarLibro(selectedBook)"
+                >Comprar</v-btn
+              >
             </v-card-actions>
           </v-col>
         </v-row>
@@ -216,13 +232,13 @@ export default {
       this.selectedBook = item;
       this.showPopup = true;
       this.getCategoryName(this.selectedBook.categoriaId)
-        .then(Nombre => {
+        .then((Nombre) => {
           this.categoryName = Nombre;
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
 
-          this.categoryName = 'Error obteniendo nombre de categoría';
+          this.categoryName = "Error obteniendo nombre de categoría";
         });
     },
 
@@ -230,13 +246,7 @@ export default {
       this.librosCards = await this.filterLibros(this.searchQuery);
     },
 
-    async getCategoryName(categoriaId) {
-      console.log(categoriaId);
-      const response = await this.$http.get('https://apitfgfinal2023.azurewebsites.net/Categorias/' + categoriaId);
-      console.log(response.data);
-      console.log(response.data.nombre);
-      return response.data.nombre;
-    },
+
 
     // Borrar Libro
     deleteLibro(id) {
@@ -249,17 +259,15 @@ export default {
           console.error("Error al eliminar el libro:", error);
         });
     },
+
+    // Función para filtrar libros por categoría
     filtrarPorCategoria(categoriaId) {
-      this.librosCards = this.librosCards.filter((libro) =>
-        libro.categorias.includes(categoriaId)
-      );
+      this.librosCards = this.libro.filter(l => l.categoriaId === categoriaId)
     },
 
     comprarLibro(selectedBook) {
-    this.$store.dispatch('addToCart', selectedBook);
-    
-  },
-
+      this.$store.dispatch("addToCart", selectedBook);
+    },
   },
 
   computed: {
@@ -311,14 +319,15 @@ export default {
 }
 
 #orden {
-  margin: 60px;
+  margin: 10px;
 }
 
 .botonOrden {
   margin-bottom: 30px;
 }
 
-.v-btn__content {}
+.v-btn__content {
+}
 
 .v-card__actions {
   display: flex;
@@ -344,5 +353,22 @@ export default {
 
 .search-bar .v-input__icon {
   color: grey;
+}
+
+.filtros {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .filtros {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #orden {
+    margin: 10px;
+  }
 }
 </style>
