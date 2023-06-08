@@ -226,6 +226,10 @@ export default {
     const idCliente = +Cookies.get('idUsuario');
     console.log('idCliente:', idCliente);
 
+    if(isNaN(idCliente)){
+      this.$router.push('/login');
+    }
+
     const libroCliente = {
       
       idCliente: idCliente || this.$props.IdCliente,
@@ -234,7 +238,7 @@ export default {
     };
     console.log('libroCliente:', libroCliente);
 
-    await this.LibrosClientesPost([libroCliente]);
+    await this.LibrosClientesPost(libroCliente);
 
     // Resto del código...
   } catch (error) {

@@ -191,7 +191,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-
+import Cookies from 'js-cookie';
 export default {
   name: "Cards",
   components: {},
@@ -246,6 +246,32 @@ export default {
       this.librosCards = await this.filterLibros(this.searchQuery);
     },
 
+    ...mapActions(["LibrosClientesPost"]),
+    async comprarLibro(selectedBook) {
+  try {
+    const idCliente = +Cookies.get('idUsuario');
+    console.log('idCliente:', idCliente);
+
+    if(isNaN(idCliente)){
+      this.$router.push('/login');
+    }
+
+    const libroCliente = {
+      
+      idCliente: idCliente || this.$props.IdCliente,
+      idlibro: selectedBook.id,
+      nombreLibro: selectedBook.titulo,
+    };
+    console.log('libroCliente:', libroCliente);
+
+    await this.LibrosClientesPost(libroCliente);
+
+    // Resto del código...
+  } catch (error) {
+    console.error("Error al comprar el libro:", error);
+  }
+},
+
     // Borrar Libro
     deleteLibro(id) {
       this.$store
@@ -265,9 +291,7 @@ export default {
       );
     },
 
-    comprarLibro(selectedBook) {
-      this.$store.dispatch("addToCart", selectedBook);
-    },
+
   },
 
   computed: {
