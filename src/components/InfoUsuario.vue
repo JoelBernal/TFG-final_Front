@@ -1,6 +1,6 @@
 <template>
-  <div style="display: flex; justify-content: space-between; padding-left: 10%; width: 100%;">
-    <v-card style="width: 60%">
+  <div class="divComponenteGeneral">
+    <v-card class="divAjustes">
       <v-card-title class="primary mb-6" id="tittle-form">
         <h2 class="text-white">Ajustes de Perfil</h2>
       </v-card-title>
@@ -53,14 +53,20 @@
         </v-card>
       </v-dialog>
     </v-card>
-    <div style="width: 35%; margin-left: 5%;margin-right: 80%;">
-      <h2>Libros del cliente</h2>
-      <ul>
-        <li v-for="(libro, index) in librosDelCliente" :key="index">
-          {{ libro.nombreLibro }}
-        </li>
-      </ul>
-    </div>
+    <v-card class="divInfoLibrosCliente">
+      <v-card-title>
+        <h2>Mis libros comprados:</h2>
+      </v-card-title>
+      <v-card-text>
+        <table>
+          <tbody>
+            <tr v-for="(libro, index) in librosDelCliente" :key="index">
+              <td>{{ libro.nombreLibro }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 
@@ -89,10 +95,12 @@ export default {
     ...mapGetters(["libroCliente"]),
 
     librosDelCliente() {
+      console.log(this.$store.state.LibrosClientes);
       const idCliente = this.usuario.id;
       console.log(idCliente);// Obtén el id del cliente actual desde el state de Vuex
       let librosFiltrados = this.$store.state.LibrosClientes.filter(libro => libro.idCliente === idCliente);
       console.log('librosFiltrados:', librosFiltrados);
+      
       return librosFiltrados;
     }
   },
@@ -108,7 +116,7 @@ export default {
 
 
     ...mapMutations([
-      'clearCart' // map `this.clearCart()` to `this.$store.commit('clearCart')`
+      
     ]),
     editProfile() {
       this.editing = true;
@@ -162,7 +170,7 @@ export default {
     logOut(usuario) {
       console.log(usuario)
       Cookies.remove('idUsuario');
-      this.clearCart();
+      // this.clearCart();
       this.$router.push('/home');
       location.reload();
     }
@@ -191,5 +199,20 @@ div[data-v-2c902354] {
     display: block !important;
 }
 
+.divComponenteGeneral{
+  display: flex; 
+  justify-content: space-between; 
+  padding-left: 10%; 
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
 
+.divAjustes{
+  width: 60%
+}
+.divInfoLibrosCliente{
+  width: 40%; 
+  margin-right: 80%;
+}
 </style>

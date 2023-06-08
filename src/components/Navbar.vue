@@ -90,6 +90,12 @@ export default {
           icon: "TiendasAdmin",
           active: false,
         },
+        {
+          title: "Empleados",
+          path: "/empleados",
+          icon: "empleados",
+          active: false,
+        },
         { title: "Usuario", path: "/InfoUsuario", icon: "user", active: false },
         {
           title: "Iniciar Sesion",
@@ -133,6 +139,12 @@ export default {
           if (i.title == "ProductosAdmin" && user.rol == "admin") {
             i.active = true;
           } else if (i.title == "ProductosAdmin" && user.rol !== "admin") {
+            i.active = false;
+          }
+
+          if (i.title == "Empleados" && user.rol == "admin") {
+            i.active = true;
+          } else if (i.title == "Empleados" && user.rol !== "admin") {
             i.active = false;
           }
 

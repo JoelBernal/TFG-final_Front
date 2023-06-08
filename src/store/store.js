@@ -18,6 +18,7 @@ export default new Vuex.Store({
     categorias: [],
     cart: [],
     LibrosClientes: [],
+    empleados:[],
   },
   mutations: {
     initLibro(state, libro) {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
     initTiendas(state, tienda) {
       state.tienda = tienda;
+    },
+    initEmpleados(state, empleados) {
+      state.empleados = empleados;
     },
     initUsuarios(state, usuarios) {
       state.usuarios = usuarios;
@@ -40,6 +44,9 @@ export default new Vuex.Store({
     },
     eliminarTienda(state, id) {
       state.tienda = state.tienda.filter((tienda) => tienda.id != id);
+    },
+    eliminarEmpleado(state, id) {
+      state.empleados = state.empleados.filter((empleados) => empleados.id != id);
     },
     eliminarCliente(state, id) {
       state.usuarios = state.usuarios.filter((usuarios) => usuarios.id != id);
@@ -109,6 +116,12 @@ export default new Vuex.Store({
       let res = await fetch("https://apitfgfinal2023.azurewebsites.net/Tiendas")
       let data = await res.json();
       commit("initTiendas", data);
+    },
+
+    async fetchEmpleados({ commit }) {
+      let res = await fetch("https://apitfgfinal2023.azurewebsites.net/Empleados")
+      let data = await res.json();
+      commit("initEmpleados", data);
     },
 
     async fetchUsuarios({ commit }) {
@@ -216,6 +229,19 @@ export default new Vuex.Store({
       })
         .then(() => {
           commit(`eliminarCliente`, id);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+
+    eliminarEmpleado({ commit }, id) {
+      console.log("Este est mi id a eliminar" + id);
+      return fetch(`https://apitfgfinal2023.azurewebsites.net/Empleados/${id}`, {
+        method: "DELETE",
+      })
+        .then(() => {
+          commit(`eliminarEmpleado`, id);
         })
         .catch((error) => {
           console.error(error);

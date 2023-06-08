@@ -15,6 +15,7 @@ import Pdp from '../views/Pdp'
 import AboutUs from '../views/AboutUs'
 import PGracias from '../views/PGracias'
 import Checkout from '../views/Chekcout.vue'
+import Empleados from '../views/Empleados.vue'
 
 Vue.use(VueRouter)
 
@@ -98,6 +99,11 @@ const routes = [
     path: "/checkout",
     name: "Checkout",
     component: Checkout
+  },
+  {
+    path: "/empleados",
+    name: "Empleados",
+    component: Empleados
   },
 ];
 

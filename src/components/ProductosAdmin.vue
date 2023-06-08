@@ -247,6 +247,7 @@ export default {
     },
 
     ...mapActions(["LibrosClientesPost"]),
+
     async comprarLibro(selectedBook) {
   try {
     const idCliente = +Cookies.get('idUsuario');
@@ -265,6 +266,7 @@ export default {
     console.log('libroCliente:', libroCliente);
     this.$router.push('/checkout');
     await this.LibrosClientesPost(libroCliente);
+
 
     // Resto del código...
   } catch (error) {
