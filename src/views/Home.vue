@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <Navbar />
@@ -10,15 +9,15 @@
       </div>
       <div style="display: flex; text-decoration: solid;">
     
-        <CardHome :cards="rows1" style="width: 33%" />
-        <CardHome :cards="rows2" style="width: 33%" />
-        <CardHome :cards="rows4" style="width: 33%" /> 
+        <CardHome :cards="rows1" @click.native="products" style="width: 33%" />
+        <CardHome :cards="rows2" @click.native="products" style="width: 33%" />
+        <CardHome :cards="rows4" @click.native="products" style="width: 33%" /> 
       </div>
       <div style="display: flex; justify-content: center; margin-top: 10px; font-family: Verdana, Geneva, Tahoma, sans-serif; font-size: 20px;">
         <h1>TE PODRÍA INTERESAR</h1>
       </div>
       <div style="margin-left: 25px;">
-        <CardHome :cards="rows3" style="width: 100%;" />
+        <CardHome  :cards="rows3" @click.native="products" style="width: 100%; " />
       </div>
     </div>
 
@@ -61,8 +60,16 @@ export default {
       ]
     };
   },
+
+methods:{
+  products(){
+    this.$router.push('/products');
+  }
+}
+
 };
 </script>
+
 
 <style>
 .card-text {

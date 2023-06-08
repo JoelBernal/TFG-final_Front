@@ -1,28 +1,28 @@
 <template>
-<div >
-    <h3 style="text-align: center;margin-bottom: 20px;margin-top: 20px;">Información de Pago</h3>
-    <div class="payment-form" style="padding: 25%;">
-      <form @submit.prevent="submitPayment">
-        <div class="form-group">
-          <label for="cardName">Nombre en la tarjeta</label>
-          <input id="cardName" v-model="cardName" type="text" required>
-        </div>
-        <div class="form-group">
-          <label for="cardNumber">Número de tarjeta</label>
-          <input id="cardNumber" v-model="cardNumber" type="text" required>
-        </div>
-        <div class="form-group">
-          <label for="expiryDate">Fecha de vencimiento</label>
-          <input id="expiryDate" v-model="expiryDate" type="text" required>
-        </div>
-        <div class="form-group">
-          <label for="cvv">CVV</label>
-          <input id="cvv" v-model="cvv" type="text" required>
-        </div>
-        <button type="submit" style="width: 100%;" class="pay-button" @click="IrGracias() ">Pagar</button>
-      </form>
-    </div>
-</div>
+  <div>
+      <h3 style="text-align: center; margin-bottom: 20px; margin-top: 20px;">Información de Pago</h3>
+      <div class="payment-form">
+        <form @submit.prevent="submitPayment">
+          <div class="form-group">
+            <label for="cardName">Nombre en la tarjeta</label>
+            <input id="cardName" v-model="cardName" type="text" required class="input-field">
+          </div>
+          <div class="form-group">
+            <label for="cardNumber">Número de tarjeta</label>
+            <input id="cardNumber" v-model="cardNumber" type="text" required class="input-field">
+          </div>
+          <div class="form-group">
+            <label for="expiryDate">Fecha de vencimiento</label>
+            <input id="expiryDate" v-model="expiryDate" type="text" required class="input-field">
+          </div>
+          <div class="form-group">
+            <label for="cvv">CVV</label>
+            <input id="cvv" v-model="cvv" type="text" required class="input-field">
+          </div>
+          <button type="submit" class="pay-button" @click="IrGracias()">Pagar</button>
+        </form>
+      </div>
+  </div>
 </template>
 
 <script>
@@ -37,57 +37,49 @@ export default {
     };
   },
   methods: {
-
     ...mapMutations([
       'clearCart' 
     ]),
-
-   async IrGracias() {
-        await this.$store.dispatch('submitOrder');
-        this.clearCart();
-        this.$router.push('/Gracias');
-      }
+    async IrGracias() {
+      await this.$store.dispatch('submitOrder');
+      this.clearCart();
+      this.$router.push('/Gracias');
+    }
   },
 };
 </script>
 
 <style scoped>
-
-
 .payment-form {
-  
-  width: 400px;
-  background-color: #f8f9fa;
+  padding: 5%;
+  max-width: 500px;
+  margin: auto;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: aliceblue;
 }
 
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-group input {
+.input-field {
   width: 100%;
   padding: 10px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
 .pay-button {
+  width: 100%;
+  padding: 15px;
   background-color: #80461b;
   color: white;
-  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .pay-button:hover {
-  background-color: #80461b;
+  background-color: #643716;
 }
 </style>

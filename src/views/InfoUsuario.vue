@@ -9,7 +9,7 @@
         <MenuLateral></MenuLateral>
       </div>
       <div style="display:flex; flex-direction:column; gap: 50px; margin-left: 15%">
-        <div style="display: flex; gap: 30px; margin-top: 35px ">
+        <div style=" gap: 30px; margin-top: 35px ">
           <InfoUsuario></InfoUsuario>
         </div>
       </div>
@@ -44,6 +44,10 @@ export default {
 .MenuClass {
   height: auto;
   max-height: 100%;
+}
+
+div[data-v-2c902354] {
+    display: block !important;
 }
 </style>
  

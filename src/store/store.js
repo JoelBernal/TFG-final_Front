@@ -77,6 +77,10 @@ export default new Vuex.Store({
     LibrosClientesPost(state, libros) {
       state.LibrosClientes.push(...libros);
     },
+    SET_LIBRO_CLIENTE(state, libros) {
+      state.LibrosClientes.push(...libros);
+    }
+    
     
   },
 
@@ -416,26 +420,21 @@ export default new Vuex.Store({
       }
     },
     
-    // async LibrosClientesPost({ commit }, libros) {
-    //   return await fetch('https://apitfgfinal2023.azurewebsites.net/LibrosClientes', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(libros)
-    //   })
-    //     .then(async response => await response.json())
-    //     .then(data => {
-    //       commit('LibrosClientesPost', data);
-    //     })
-    //     .catch(error => {
-    //       console.error(error);
-    //     });
-    // },
-    
-    
+    async fetchLibroCliente({ commit }, id) {
+      try {
+        console.log("ID enviada a la API: ", id);  // Añade esta línea
+        const response = await fetch(`https://apitfgfinal2023.azurewebsites.net/${id}`)
+        const data = await response.json()
+        commit('SET_LIBRO_CLIENTE', data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
     
   },
  
+  getters: {
+    libroCliente: state => state.libroCliente
+  },
   modules: {},
 });

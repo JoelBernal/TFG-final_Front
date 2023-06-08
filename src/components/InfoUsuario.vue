@@ -1,6 +1,6 @@
-<template >
-  <div style="padding: 10%; width: 700px;">
-    <v-card style="margin-left: 20%; ">
+<template>
+  <div style="display: flex; justify-content: space-between; padding-left: 10%; width: 100%;">
+    <v-card style="width: 60%">
       <v-card-title class="primary mb-6" id="tittle-form">
         <h2 class="text-white">Ajustes de Perfil</h2>
       </v-card-title>
@@ -53,11 +53,20 @@
         </v-card>
       </v-dialog>
     </v-card>
+    <div style="width: 35%; margin-left: 5%;margin-right: 80%;">
+      <h2>Libros del cliente</h2>
+      <ul>
+        <li v-for="(libro, index) in librosDelCliente" :key="index">
+          {{ libro.nombreLibro }}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
+
 <script>
-import { mapState, mapActions,mapMutations } from "vuex";
+import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 import Cookies from 'js-cookie';
 
 export default {
@@ -77,12 +86,26 @@ export default {
   },
   computed: {
     ...mapState(["usuario"]),
+    ...mapGetters(["libroCliente"]),
+
+    librosDelCliente() {
+      const idCliente = this.usuario.id;
+      console.log(idCliente);// Obtén el id del cliente actual desde el state de Vuex
+      let librosFiltrados = this.$store.state.LibrosClientes.filter(libro => libro.idCliente === idCliente);
+      console.log('librosFiltrados:', librosFiltrados);
+      return librosFiltrados;
+    }
   },
   mounted() {
     this.loadUser(this.usuario);
+    console.log(this.usuario.id);
+    this.fetchLibroCliente(this.usuario.id).then(() => {
+      console.log(this.libroCliente);
+    });
   },
   methods: {
-    ...mapActions(["updateUser"]),
+    ...mapActions(["updateUser", "fetchLibroCliente"]),
+
 
     ...mapMutations([
       'clearCart' // map `this.clearCart()` to `this.$store.commit('clearCart')`
@@ -145,7 +168,7 @@ export default {
     }
   },
   watch: {
-    usuario(newUser) {this.loadUser(newUser);}
+    usuario(newUser) { this.loadUser(newUser); }
   }
 
 
@@ -163,4 +186,10 @@ export default {
 #tittle-form {
   background-color: #80461b !important;
 }
+
+div[data-v-2c902354] {
+    display: block !important;
+}
+
+
 </style>
