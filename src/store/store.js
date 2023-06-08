@@ -86,8 +86,10 @@ export default new Vuex.Store({
     },
     SET_LIBRO_CLIENTE(state, libros) {
       state.LibrosClientes.push(...libros);
-    }
-    
+    },
+    CLEAR_LIBRO_CLIENTE(state) {
+      state.LibrosClientes = [];
+    },
     
   },
 

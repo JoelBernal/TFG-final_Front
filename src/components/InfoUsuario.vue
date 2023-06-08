@@ -106,7 +106,7 @@ export default {
   },
   mounted() {
     this.loadUser(this.usuario);
-    console.log(this.usuario.id);
+    this.$store.commit('CLEAR_LIBRO_CLIENTE');
     this.fetchLibroCliente(this.usuario.id).then(() => {
       console.log(this.libroCliente);
     });
@@ -214,5 +214,6 @@ div[data-v-2c902354] {
 .divInfoLibrosCliente{
   width: 40%; 
   margin-right: 80%;
+  margin-top: 30px;
 }
 </style>
