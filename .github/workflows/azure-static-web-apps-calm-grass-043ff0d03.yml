@@ -9,7 +9,7 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - main 
-      - Analytics
+    
 
 jobs:
   build_and_deploy_job:
